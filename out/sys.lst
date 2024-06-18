@@ -1,0 +1,3043 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module sys
+                                      6 	.optsdcc -mmcs51 --model-large
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl ___uart0_interrupt
+                                     12 	.globl ___tim2_interrupt
+                                     13 	.globl _UIF_BUS_RST
+                                     14 	.globl _UIF_TRANSFER
+                                     15 	.globl _UIF_SUSPEND
+                                     16 	.globl _UIF_FIFO_OV
+                                     17 	.globl _U_SIE_FREE
+                                     18 	.globl _U_TOG_OK
+                                     19 	.globl _U_IS_NAK
+                                     20 	.globl _S0_R_FIFO0
+                                     21 	.globl _S0_R_FIFO1
+                                     22 	.globl _S0_T_FIFO
+                                     23 	.globl _S0_FREE
+                                     24 	.globl _S0_IF_BYTE
+                                     25 	.globl _S0_IF_FIRST
+                                     26 	.globl _S0_IF_OV
+                                     27 	.globl _S0_FST_ACT
+                                     28 	.globl _CP_RL2
+                                     29 	.globl _C_T2
+                                     30 	.globl _TR2
+                                     31 	.globl _EXEN2
+                                     32 	.globl _TCLK
+                                     33 	.globl _RCLK
+                                     34 	.globl _EXF2
+                                     35 	.globl _CAP1F
+                                     36 	.globl _TF2
+                                     37 	.globl _RI
+                                     38 	.globl _TI
+                                     39 	.globl _RB8
+                                     40 	.globl _TB8
+                                     41 	.globl _REN
+                                     42 	.globl _SM2
+                                     43 	.globl _SM1
+                                     44 	.globl _SM0
+                                     45 	.globl _IT0
+                                     46 	.globl _IE0
+                                     47 	.globl _IT1
+                                     48 	.globl _IE1
+                                     49 	.globl _TR0
+                                     50 	.globl _TF0
+                                     51 	.globl _TR1
+                                     52 	.globl _TF1
+                                     53 	.globl _RXD1_
+                                     54 	.globl _LED2
+                                     55 	.globl _CAP3_
+                                     56 	.globl _PWM3_
+                                     57 	.globl _TXD1_
+                                     58 	.globl _TNOW_
+                                     59 	.globl _LED3
+                                     60 	.globl _SCS_
+                                     61 	.globl _SCK_
+                                     62 	.globl _P40
+                                     63 	.globl _P41
+                                     64 	.globl _P42
+                                     65 	.globl _P43
+                                     66 	.globl _P44
+                                     67 	.globl _P45
+                                     68 	.globl _P46
+                                     69 	.globl _P47
+                                     70 	.globl _RXD
+                                     71 	.globl _TXD
+                                     72 	.globl _INT0
+                                     73 	.globl _LED0
+                                     74 	.globl _INT1
+                                     75 	.globl _LED1
+                                     76 	.globl _T0
+                                     77 	.globl _XCS0
+                                     78 	.globl _LEDC
+                                     79 	.globl _T1
+                                     80 	.globl _DA6
+                                     81 	.globl _WR
+                                     82 	.globl _RD
+                                     83 	.globl _P30
+                                     84 	.globl _P31
+                                     85 	.globl _P32
+                                     86 	.globl _P33
+                                     87 	.globl _P34
+                                     88 	.globl _P35
+                                     89 	.globl _P36
+                                     90 	.globl _P37
+                                     91 	.globl _CAP2_
+                                     92 	.globl _T2EX_
+                                     93 	.globl _TNOW
+                                     94 	.globl _RXD1
+                                     95 	.globl _DA7
+                                     96 	.globl _TXD1
+                                     97 	.globl _P20
+                                     98 	.globl _P21
+                                     99 	.globl _P22
+                                    100 	.globl _P23
+                                    101 	.globl _P24
+                                    102 	.globl _P25
+                                    103 	.globl _P26
+                                    104 	.globl _P27
+                                    105 	.globl _CAP1
+                                    106 	.globl _T2
+                                    107 	.globl _CAP2
+                                    108 	.globl _T2EX
+                                    109 	.globl _CAP3
+                                    110 	.globl _PWM3
+                                    111 	.globl _SCS
+                                    112 	.globl _MOSI
+                                    113 	.globl _MISO
+                                    114 	.globl _SCK
+                                    115 	.globl _AIN0
+                                    116 	.globl _AIN1
+                                    117 	.globl _AIN2
+                                    118 	.globl _AIN3
+                                    119 	.globl _AIN4
+                                    120 	.globl _AIN5
+                                    121 	.globl _AIN6
+                                    122 	.globl _AIN7
+                                    123 	.globl _P10
+                                    124 	.globl _P11
+                                    125 	.globl _P12
+                                    126 	.globl _P13
+                                    127 	.globl _P14
+                                    128 	.globl _P15
+                                    129 	.globl _P16
+                                    130 	.globl _P17
+                                    131 	.globl _UDTR
+                                    132 	.globl _URTS
+                                    133 	.globl _RXD_
+                                    134 	.globl _TXD_
+                                    135 	.globl _UCTS
+                                    136 	.globl _UDSR
+                                    137 	.globl _URI
+                                    138 	.globl _UDCD
+                                    139 	.globl _P00
+                                    140 	.globl _P01
+                                    141 	.globl _P02
+                                    142 	.globl _P03
+                                    143 	.globl _P04
+                                    144 	.globl _P05
+                                    145 	.globl _P06
+                                    146 	.globl _P07
+                                    147 	.globl _IE_SPI0
+                                    148 	.globl _IE_TMR3
+                                    149 	.globl _IE_USB
+                                    150 	.globl _IE_ADC
+                                    151 	.globl _IE_UART1
+                                    152 	.globl _IE_GPIO
+                                    153 	.globl _IE_WDOG
+                                    154 	.globl _PX0
+                                    155 	.globl _PT0
+                                    156 	.globl _PX1
+                                    157 	.globl _PT1
+                                    158 	.globl _PS
+                                    159 	.globl _PT2
+                                    160 	.globl _PL_FLAG
+                                    161 	.globl _PH_FLAG
+                                    162 	.globl _EX0
+                                    163 	.globl _ET0
+                                    164 	.globl _EX1
+                                    165 	.globl _ET1
+                                    166 	.globl _ES
+                                    167 	.globl _ET2
+                                    168 	.globl _E_DIS
+                                    169 	.globl _EA
+                                    170 	.globl _P
+                                    171 	.globl _F1
+                                    172 	.globl _OV
+                                    173 	.globl _RS0
+                                    174 	.globl _RS1
+                                    175 	.globl _F0
+                                    176 	.globl _AC
+                                    177 	.globl _CY
+                                    178 	.globl _USB_DMA_AH
+                                    179 	.globl _USB_DMA_AL
+                                    180 	.globl _USB_DMA
+                                    181 	.globl _UDEV_CTRL
+                                    182 	.globl _USB_DEV_AD
+                                    183 	.globl _USB_CTRL
+                                    184 	.globl _USB_INT_EN
+                                    185 	.globl _UEP4_T_LEN
+                                    186 	.globl _UEP4_CTRL
+                                    187 	.globl _UEP0_T_LEN
+                                    188 	.globl _UEP0_CTRL
+                                    189 	.globl _USB_MIS_ST
+                                    190 	.globl _USB_INT_ST
+                                    191 	.globl _USB_INT_FG
+                                    192 	.globl _UEP3_T_LEN
+                                    193 	.globl _UEP3_CTRL
+                                    194 	.globl _UEP2_T_LEN
+                                    195 	.globl _UEP2_CTRL
+                                    196 	.globl _UEP1_T_LEN
+                                    197 	.globl _UEP1_CTRL
+                                    198 	.globl _USB_RX_LEN
+                                    199 	.globl _ADC_EX_SW
+                                    200 	.globl _ADC_SETUP
+                                    201 	.globl _ADC_FIFO_H
+                                    202 	.globl _ADC_FIFO_L
+                                    203 	.globl _ADC_FIFO
+                                    204 	.globl _ADC_CHANN
+                                    205 	.globl _ADC_CTRL
+                                    206 	.globl _ADC_STAT
+                                    207 	.globl _ADC_CK_SE
+                                    208 	.globl _ADC_DMA_CN
+                                    209 	.globl _ADC_DMA_AH
+                                    210 	.globl _ADC_DMA_AL
+                                    211 	.globl _ADC_DMA
+                                    212 	.globl _SER1_ADDR
+                                    213 	.globl _SER1_MSR
+                                    214 	.globl _SER1_LSR
+                                    215 	.globl _SER1_MCR
+                                    216 	.globl _SER1_LCR
+                                    217 	.globl _SER1_IIR
+                                    218 	.globl _SER1_IER
+                                    219 	.globl _SER1_FIFO
+                                    220 	.globl _SPI0_SETUP
+                                    221 	.globl _SPI0_CK_SE
+                                    222 	.globl _SPI0_CTRL
+                                    223 	.globl _SPI0_DATA
+                                    224 	.globl _SPI0_STAT
+                                    225 	.globl _T3_FIFO_H
+                                    226 	.globl _T3_FIFO_L
+                                    227 	.globl _T3_FIFO
+                                    228 	.globl _T3_DMA_AH
+                                    229 	.globl _T3_DMA_AL
+                                    230 	.globl _T3_DMA
+                                    231 	.globl _T3_DMA_CN
+                                    232 	.globl _T3_CTRL
+                                    233 	.globl _T3_STAT
+                                    234 	.globl _T3_END_H
+                                    235 	.globl _T3_END_L
+                                    236 	.globl _T3_END
+                                    237 	.globl _T3_COUNT_H
+                                    238 	.globl _T3_COUNT_L
+                                    239 	.globl _T3_COUNT
+                                    240 	.globl _T3_SETUP
+                                    241 	.globl _TH2
+                                    242 	.globl _TL2
+                                    243 	.globl _T2COUNT
+                                    244 	.globl _RCAP2H
+                                    245 	.globl _RCAP2L
+                                    246 	.globl _RCAP2
+                                    247 	.globl _T2MOD
+                                    248 	.globl _T2CON
+                                    249 	.globl _SBUF
+                                    250 	.globl _SCON
+                                    251 	.globl _TH1
+                                    252 	.globl _TH0
+                                    253 	.globl _TL1
+                                    254 	.globl _TL0
+                                    255 	.globl _TMOD
+                                    256 	.globl _TCON
+                                    257 	.globl _XBUS_SPEED
+                                    258 	.globl _XBUS_AUX
+                                    259 	.globl _PIN_FUNC
+                                    260 	.globl _PORT_CFG
+                                    261 	.globl _P5_IN
+                                    262 	.globl _P4_PU
+                                    263 	.globl _P4_DIR
+                                    264 	.globl _P4_IN
+                                    265 	.globl _P4_OUT
+                                    266 	.globl _P3_PU
+                                    267 	.globl _P3_DIR
+                                    268 	.globl _P3
+                                    269 	.globl _P2_PU
+                                    270 	.globl _P2_DIR
+                                    271 	.globl _P2
+                                    272 	.globl _P1_PU
+                                    273 	.globl _P1_DIR
+                                    274 	.globl _P1_IE
+                                    275 	.globl _P1
+                                    276 	.globl _P0_PU
+                                    277 	.globl _P0_DIR
+                                    278 	.globl _P0
+                                    279 	.globl _ROM_CTRL
+                                    280 	.globl _ROM_DATA_H
+                                    281 	.globl _ROM_DATA_L
+                                    282 	.globl _ROM_DATA
+                                    283 	.globl _ROM_ADDR_H
+                                    284 	.globl _ROM_ADDR_L
+                                    285 	.globl _ROM_ADDR
+                                    286 	.globl _GPIO_IE
+                                    287 	.globl _IP_EX
+                                    288 	.globl _IE_EX
+                                    289 	.globl _IP
+                                    290 	.globl _IE
+                                    291 	.globl _WDOG_COUNT
+                                    292 	.globl _RESET_KEEP
+                                    293 	.globl _WAKE_CTRL
+                                    294 	.globl _SLEEP_CTRL
+                                    295 	.globl _CLOCK_CFG
+                                    296 	.globl _PLL_CFG
+                                    297 	.globl _PCON
+                                    298 	.globl _GLOBAL_CFG
+                                    299 	.globl _SAFE_MOD
+                                    300 	.globl _DPH
+                                    301 	.globl _DPL
+                                    302 	.globl _SP
+                                    303 	.globl _B
+                                    304 	.globl _ACC
+                                    305 	.globl _PSW
+                                    306 	.globl _block_recv_siz
+                                    307 	.globl _block_recv_pos
+                                    308 	.globl _block_recv_ptr
+                                    309 	.globl _recPtr0
+                                    310 	.globl _sysTickCount
+                                    311 	.globl _uart1Gets_PARM_2
+                                    312 	.globl _u1c
+                                    313 	.globl _u1t
+                                    314 	.globl _uart0BlockRecv_PARM_2
+                                    315 	.globl _uart0Gets_PARM_2
+                                    316 	.globl _sbuf
+                                    317 	.globl _x2
+                                    318 	.globl _x
+                                    319 	.globl _mmov_PARM_3
+                                    320 	.globl _mmov_PARM_2
+                                    321 	.globl _mset_PARM_3
+                                    322 	.globl _mset_PARM_2
+                                    323 	.globl _mc
+                                    324 	.globl _LED_DMA_X
+                                    325 	.globl _LED_DMA_XL
+                                    326 	.globl _LED_DMA_XH
+                                    327 	.globl _LED_DMA_CN
+                                    328 	.globl _LED_DMA
+                                    329 	.globl _LED_DMA_AL
+                                    330 	.globl _LED_DMA_AH
+                                    331 	.globl _LED_CK_SE
+                                    332 	.globl _LED_DATA
+                                    333 	.globl _LED_CTRL
+                                    334 	.globl _LED_STAT
+                                    335 	.globl _UEP3_DMA
+                                    336 	.globl _UEP3_DMA_L
+                                    337 	.globl _UEP3_DMA_H
+                                    338 	.globl _UEP2_DMA
+                                    339 	.globl _UEP2_DMA_L
+                                    340 	.globl _UEP2_DMA_H
+                                    341 	.globl _UEP1_DMA
+                                    342 	.globl _UEP1_DMA_L
+                                    343 	.globl _UEP1_DMA_H
+                                    344 	.globl _UEP0_DMA
+                                    345 	.globl _UEP0_DMA_L
+                                    346 	.globl _UEP0_DMA_H
+                                    347 	.globl _UEP2_3_MOD
+                                    348 	.globl _UEP4_1_MOD
+                                    349 	.globl _pLED_DMA_X
+                                    350 	.globl _pLED_DMA_XL
+                                    351 	.globl _pLED_DMA_XH
+                                    352 	.globl _pLED_DMA_CN
+                                    353 	.globl _pLED_DMA
+                                    354 	.globl _pLED_DMA_AL
+                                    355 	.globl _pLED_DMA_AH
+                                    356 	.globl _pLED_CK_SE
+                                    357 	.globl _pLED_DATA
+                                    358 	.globl _pLED_CTRL
+                                    359 	.globl _pLED_STAT
+                                    360 	.globl _pUEP3_DMA
+                                    361 	.globl _pUEP3_DMA_L
+                                    362 	.globl _pUEP3_DMA_H
+                                    363 	.globl _pUEP2_DMA
+                                    364 	.globl _pUEP2_DMA_L
+                                    365 	.globl _pUEP2_DMA_H
+                                    366 	.globl _pUEP1_DMA
+                                    367 	.globl _pUEP1_DMA_L
+                                    368 	.globl _pUEP1_DMA_H
+                                    369 	.globl _pUEP0_DMA
+                                    370 	.globl _pUEP0_DMA_L
+                                    371 	.globl _pUEP0_DMA_H
+                                    372 	.globl _pUEP2_3_MOD
+                                    373 	.globl _pUEP4_1_MOD
+                                    374 	.globl _block_recv
+                                    375 	.globl _busy
+                                    376 	.globl _mset
+                                    377 	.globl _mmov
+                                    378 	.globl _sysClockConfig
+                                    379 	.globl _delay
+                                    380 	.globl _delay_us
+                                    381 	.globl _sysTickConfig
+                                    382 	.globl _sysGetTickCount
+                                    383 	.globl _uart0Config
+                                    384 	.globl _uart0Send
+                                    385 	.globl _uart0Write
+                                    386 	.globl _uart0Get
+                                    387 	.globl _uart0Gets
+                                    388 	.globl _uart0BlockRecv
+                                    389 	.globl _uart1Config
+                                    390 	.globl _uart1Send
+                                    391 	.globl _uart1Write
+                                    392 	.globl _uart1Get
+                                    393 	.globl _uart1Gets
+                                    394 	.globl _pwm3Init
+                                    395 	.globl _pwm3Duty
+                                    396 	.globl _adcInit
+                                    397 	.globl _adcGet
+                                    398 ;--------------------------------------------------------
+                                    399 ; special function registers
+                                    400 ;--------------------------------------------------------
+                                    401 	.area RSEG    (ABS,DATA)
+      000000                        402 	.org 0x0000
+                           0000D0   403 _PSW	=	0x00d0
+                           0000E0   404 _ACC	=	0x00e0
+                           0000F0   405 _B	=	0x00f0
+                           000081   406 _SP	=	0x0081
+                           000082   407 _DPL	=	0x0082
+                           000083   408 _DPH	=	0x0083
+                           0000A1   409 _SAFE_MOD	=	0x00a1
+                           0000B1   410 _GLOBAL_CFG	=	0x00b1
+                           000087   411 _PCON	=	0x0087
+                           0000B2   412 _PLL_CFG	=	0x00b2
+                           0000B3   413 _CLOCK_CFG	=	0x00b3
+                           0000EA   414 _SLEEP_CTRL	=	0x00ea
+                           0000EB   415 _WAKE_CTRL	=	0x00eb
+                           0000FE   416 _RESET_KEEP	=	0x00fe
+                           0000FF   417 _WDOG_COUNT	=	0x00ff
+                           0000A8   418 _IE	=	0x00a8
+                           0000B8   419 _IP	=	0x00b8
+                           0000E8   420 _IE_EX	=	0x00e8
+                           0000E9   421 _IP_EX	=	0x00e9
+                           0000CF   422 _GPIO_IE	=	0x00cf
+                           008584   423 _ROM_ADDR	=	0x8584
+                           000084   424 _ROM_ADDR_L	=	0x0084
+                           000085   425 _ROM_ADDR_H	=	0x0085
+                           008F8E   426 _ROM_DATA	=	0x8f8e
+                           00008E   427 _ROM_DATA_L	=	0x008e
+                           00008F   428 _ROM_DATA_H	=	0x008f
+                           000086   429 _ROM_CTRL	=	0x0086
+                           000080   430 _P0	=	0x0080
+                           0000C4   431 _P0_DIR	=	0x00c4
+                           0000C5   432 _P0_PU	=	0x00c5
+                           000090   433 _P1	=	0x0090
+                           0000B9   434 _P1_IE	=	0x00b9
+                           0000BA   435 _P1_DIR	=	0x00ba
+                           0000BB   436 _P1_PU	=	0x00bb
+                           0000A0   437 _P2	=	0x00a0
+                           0000BC   438 _P2_DIR	=	0x00bc
+                           0000BD   439 _P2_PU	=	0x00bd
+                           0000B0   440 _P3	=	0x00b0
+                           0000BE   441 _P3_DIR	=	0x00be
+                           0000BF   442 _P3_PU	=	0x00bf
+                           0000C0   443 _P4_OUT	=	0x00c0
+                           0000C1   444 _P4_IN	=	0x00c1
+                           0000C2   445 _P4_DIR	=	0x00c2
+                           0000C3   446 _P4_PU	=	0x00c3
+                           0000C7   447 _P5_IN	=	0x00c7
+                           0000C6   448 _PORT_CFG	=	0x00c6
+                           0000CE   449 _PIN_FUNC	=	0x00ce
+                           0000A2   450 _XBUS_AUX	=	0x00a2
+                           0000FD   451 _XBUS_SPEED	=	0x00fd
+                           000088   452 _TCON	=	0x0088
+                           000089   453 _TMOD	=	0x0089
+                           00008A   454 _TL0	=	0x008a
+                           00008B   455 _TL1	=	0x008b
+                           00008C   456 _TH0	=	0x008c
+                           00008D   457 _TH1	=	0x008d
+                           000098   458 _SCON	=	0x0098
+                           000099   459 _SBUF	=	0x0099
+                           0000C8   460 _T2CON	=	0x00c8
+                           0000C9   461 _T2MOD	=	0x00c9
+                           00CBCA   462 _RCAP2	=	0xcbca
+                           0000CA   463 _RCAP2L	=	0x00ca
+                           0000CB   464 _RCAP2H	=	0x00cb
+                           00CDCC   465 _T2COUNT	=	0xcdcc
+                           0000CC   466 _TL2	=	0x00cc
+                           0000CD   467 _TH2	=	0x00cd
+                           0000A3   468 _T3_SETUP	=	0x00a3
+                           00A5A4   469 _T3_COUNT	=	0xa5a4
+                           0000A4   470 _T3_COUNT_L	=	0x00a4
+                           0000A5   471 _T3_COUNT_H	=	0x00a5
+                           00A7A6   472 _T3_END	=	0xa7a6
+                           0000A6   473 _T3_END_L	=	0x00a6
+                           0000A7   474 _T3_END_H	=	0x00a7
+                           0000A9   475 _T3_STAT	=	0x00a9
+                           0000AA   476 _T3_CTRL	=	0x00aa
+                           0000AB   477 _T3_DMA_CN	=	0x00ab
+                           00ADAC   478 _T3_DMA	=	0xadac
+                           0000AC   479 _T3_DMA_AL	=	0x00ac
+                           0000AD   480 _T3_DMA_AH	=	0x00ad
+                           00AFAE   481 _T3_FIFO	=	0xafae
+                           0000AE   482 _T3_FIFO_L	=	0x00ae
+                           0000AF   483 _T3_FIFO_H	=	0x00af
+                           0000F8   484 _SPI0_STAT	=	0x00f8
+                           0000F9   485 _SPI0_DATA	=	0x00f9
+                           0000FA   486 _SPI0_CTRL	=	0x00fa
+                           0000FB   487 _SPI0_CK_SE	=	0x00fb
+                           0000FC   488 _SPI0_SETUP	=	0x00fc
+                           00009A   489 _SER1_FIFO	=	0x009a
+                           000091   490 _SER1_IER	=	0x0091
+                           000092   491 _SER1_IIR	=	0x0092
+                           000093   492 _SER1_LCR	=	0x0093
+                           000094   493 _SER1_MCR	=	0x0094
+                           000095   494 _SER1_LSR	=	0x0095
+                           000096   495 _SER1_MSR	=	0x0096
+                           000097   496 _SER1_ADDR	=	0x0097
+                           00EDEC   497 _ADC_DMA	=	0xedec
+                           0000EC   498 _ADC_DMA_AL	=	0x00ec
+                           0000ED   499 _ADC_DMA_AH	=	0x00ed
+                           0000EE   500 _ADC_DMA_CN	=	0x00ee
+                           0000EF   501 _ADC_CK_SE	=	0x00ef
+                           0000F1   502 _ADC_STAT	=	0x00f1
+                           0000F2   503 _ADC_CTRL	=	0x00f2
+                           0000F3   504 _ADC_CHANN	=	0x00f3
+                           00F5F4   505 _ADC_FIFO	=	0xf5f4
+                           0000F4   506 _ADC_FIFO_L	=	0x00f4
+                           0000F5   507 _ADC_FIFO_H	=	0x00f5
+                           0000F6   508 _ADC_SETUP	=	0x00f6
+                           0000F7   509 _ADC_EX_SW	=	0x00f7
+                           0000D1   510 _USB_RX_LEN	=	0x00d1
+                           0000D2   511 _UEP1_CTRL	=	0x00d2
+                           0000D3   512 _UEP1_T_LEN	=	0x00d3
+                           0000D4   513 _UEP2_CTRL	=	0x00d4
+                           0000D5   514 _UEP2_T_LEN	=	0x00d5
+                           0000D6   515 _UEP3_CTRL	=	0x00d6
+                           0000D7   516 _UEP3_T_LEN	=	0x00d7
+                           0000D8   517 _USB_INT_FG	=	0x00d8
+                           0000D9   518 _USB_INT_ST	=	0x00d9
+                           0000DA   519 _USB_MIS_ST	=	0x00da
+                           0000DC   520 _UEP0_CTRL	=	0x00dc
+                           0000DD   521 _UEP0_T_LEN	=	0x00dd
+                           0000DE   522 _UEP4_CTRL	=	0x00de
+                           0000DF   523 _UEP4_T_LEN	=	0x00df
+                           0000E1   524 _USB_INT_EN	=	0x00e1
+                           0000E2   525 _USB_CTRL	=	0x00e2
+                           0000E3   526 _USB_DEV_AD	=	0x00e3
+                           0000E4   527 _UDEV_CTRL	=	0x00e4
+                           00E7E6   528 _USB_DMA	=	0xe7e6
+                           0000E6   529 _USB_DMA_AL	=	0x00e6
+                           0000E7   530 _USB_DMA_AH	=	0x00e7
+                                    531 ;--------------------------------------------------------
+                                    532 ; special function bits
+                                    533 ;--------------------------------------------------------
+                                    534 	.area RSEG    (ABS,DATA)
+      000000                        535 	.org 0x0000
+                           0000D7   536 _CY	=	0x00d7
+                           0000D6   537 _AC	=	0x00d6
+                           0000D5   538 _F0	=	0x00d5
+                           0000D4   539 _RS1	=	0x00d4
+                           0000D3   540 _RS0	=	0x00d3
+                           0000D2   541 _OV	=	0x00d2
+                           0000D1   542 _F1	=	0x00d1
+                           0000D0   543 _P	=	0x00d0
+                           0000AF   544 _EA	=	0x00af
+                           0000AE   545 _E_DIS	=	0x00ae
+                           0000AD   546 _ET2	=	0x00ad
+                           0000AC   547 _ES	=	0x00ac
+                           0000AB   548 _ET1	=	0x00ab
+                           0000AA   549 _EX1	=	0x00aa
+                           0000A9   550 _ET0	=	0x00a9
+                           0000A8   551 _EX0	=	0x00a8
+                           0000BF   552 _PH_FLAG	=	0x00bf
+                           0000BE   553 _PL_FLAG	=	0x00be
+                           0000BD   554 _PT2	=	0x00bd
+                           0000BC   555 _PS	=	0x00bc
+                           0000BB   556 _PT1	=	0x00bb
+                           0000BA   557 _PX1	=	0x00ba
+                           0000B9   558 _PT0	=	0x00b9
+                           0000B8   559 _PX0	=	0x00b8
+                           0000EF   560 _IE_WDOG	=	0x00ef
+                           0000EE   561 _IE_GPIO	=	0x00ee
+                           0000EC   562 _IE_UART1	=	0x00ec
+                           0000EB   563 _IE_ADC	=	0x00eb
+                           0000EA   564 _IE_USB	=	0x00ea
+                           0000E9   565 _IE_TMR3	=	0x00e9
+                           0000E8   566 _IE_SPI0	=	0x00e8
+                           000087   567 _P07	=	0x0087
+                           000086   568 _P06	=	0x0086
+                           000085   569 _P05	=	0x0085
+                           000084   570 _P04	=	0x0084
+                           000083   571 _P03	=	0x0083
+                           000082   572 _P02	=	0x0082
+                           000081   573 _P01	=	0x0081
+                           000080   574 _P00	=	0x0080
+                           000087   575 _UDCD	=	0x0087
+                           000086   576 _URI	=	0x0086
+                           000085   577 _UDSR	=	0x0085
+                           000084   578 _UCTS	=	0x0084
+                           000083   579 _TXD_	=	0x0083
+                           000082   580 _RXD_	=	0x0082
+                           000081   581 _URTS	=	0x0081
+                           000080   582 _UDTR	=	0x0080
+                           000097   583 _P17	=	0x0097
+                           000096   584 _P16	=	0x0096
+                           000095   585 _P15	=	0x0095
+                           000094   586 _P14	=	0x0094
+                           000093   587 _P13	=	0x0093
+                           000092   588 _P12	=	0x0092
+                           000091   589 _P11	=	0x0091
+                           000090   590 _P10	=	0x0090
+                           000097   591 _AIN7	=	0x0097
+                           000096   592 _AIN6	=	0x0096
+                           000095   593 _AIN5	=	0x0095
+                           000094   594 _AIN4	=	0x0094
+                           000093   595 _AIN3	=	0x0093
+                           000092   596 _AIN2	=	0x0092
+                           000091   597 _AIN1	=	0x0091
+                           000090   598 _AIN0	=	0x0090
+                           000097   599 _SCK	=	0x0097
+                           000096   600 _MISO	=	0x0096
+                           000095   601 _MOSI	=	0x0095
+                           000094   602 _SCS	=	0x0094
+                           000092   603 _PWM3	=	0x0092
+                           000092   604 _CAP3	=	0x0092
+                           000091   605 _T2EX	=	0x0091
+                           000091   606 _CAP2	=	0x0091
+                           000090   607 _T2	=	0x0090
+                           000090   608 _CAP1	=	0x0090
+                           0000A7   609 _P27	=	0x00a7
+                           0000A6   610 _P26	=	0x00a6
+                           0000A5   611 _P25	=	0x00a5
+                           0000A4   612 _P24	=	0x00a4
+                           0000A3   613 _P23	=	0x00a3
+                           0000A2   614 _P22	=	0x00a2
+                           0000A1   615 _P21	=	0x00a1
+                           0000A0   616 _P20	=	0x00a0
+                           0000A7   617 _TXD1	=	0x00a7
+                           0000A7   618 _DA7	=	0x00a7
+                           0000A6   619 _RXD1	=	0x00a6
+                           0000A5   620 _TNOW	=	0x00a5
+                           0000A5   621 _T2EX_	=	0x00a5
+                           0000A5   622 _CAP2_	=	0x00a5
+                           0000B7   623 _P37	=	0x00b7
+                           0000B6   624 _P36	=	0x00b6
+                           0000B5   625 _P35	=	0x00b5
+                           0000B4   626 _P34	=	0x00b4
+                           0000B3   627 _P33	=	0x00b3
+                           0000B2   628 _P32	=	0x00b2
+                           0000B1   629 _P31	=	0x00b1
+                           0000B0   630 _P30	=	0x00b0
+                           0000B7   631 _RD	=	0x00b7
+                           0000B6   632 _WR	=	0x00b6
+                           0000B5   633 _DA6	=	0x00b5
+                           0000B5   634 _T1	=	0x00b5
+                           0000B4   635 _LEDC	=	0x00b4
+                           0000B4   636 _XCS0	=	0x00b4
+                           0000B4   637 _T0	=	0x00b4
+                           0000B3   638 _LED1	=	0x00b3
+                           0000B3   639 _INT1	=	0x00b3
+                           0000B2   640 _LED0	=	0x00b2
+                           0000B2   641 _INT0	=	0x00b2
+                           0000B1   642 _TXD	=	0x00b1
+                           0000B0   643 _RXD	=	0x00b0
+                           0000C7   644 _P47	=	0x00c7
+                           0000C6   645 _P46	=	0x00c6
+                           0000C5   646 _P45	=	0x00c5
+                           0000C4   647 _P44	=	0x00c4
+                           0000C3   648 _P43	=	0x00c3
+                           0000C2   649 _P42	=	0x00c2
+                           0000C1   650 _P41	=	0x00c1
+                           0000C0   651 _P40	=	0x00c0
+                           0000C7   652 _SCK_	=	0x00c7
+                           0000C6   653 _SCS_	=	0x00c6
+                           0000C4   654 _LED3	=	0x00c4
+                           0000C4   655 _TNOW_	=	0x00c4
+                           0000C4   656 _TXD1_	=	0x00c4
+                           0000C2   657 _PWM3_	=	0x00c2
+                           0000C2   658 _CAP3_	=	0x00c2
+                           0000C0   659 _LED2	=	0x00c0
+                           0000C0   660 _RXD1_	=	0x00c0
+                           00008F   661 _TF1	=	0x008f
+                           00008E   662 _TR1	=	0x008e
+                           00008D   663 _TF0	=	0x008d
+                           00008C   664 _TR0	=	0x008c
+                           00008B   665 _IE1	=	0x008b
+                           00008A   666 _IT1	=	0x008a
+                           000089   667 _IE0	=	0x0089
+                           000088   668 _IT0	=	0x0088
+                           00009F   669 _SM0	=	0x009f
+                           00009E   670 _SM1	=	0x009e
+                           00009D   671 _SM2	=	0x009d
+                           00009C   672 _REN	=	0x009c
+                           00009B   673 _TB8	=	0x009b
+                           00009A   674 _RB8	=	0x009a
+                           000099   675 _TI	=	0x0099
+                           000098   676 _RI	=	0x0098
+                           0000CF   677 _TF2	=	0x00cf
+                           0000CF   678 _CAP1F	=	0x00cf
+                           0000CE   679 _EXF2	=	0x00ce
+                           0000CD   680 _RCLK	=	0x00cd
+                           0000CC   681 _TCLK	=	0x00cc
+                           0000CB   682 _EXEN2	=	0x00cb
+                           0000CA   683 _TR2	=	0x00ca
+                           0000C9   684 _C_T2	=	0x00c9
+                           0000C8   685 _CP_RL2	=	0x00c8
+                           0000FF   686 _S0_FST_ACT	=	0x00ff
+                           0000FE   687 _S0_IF_OV	=	0x00fe
+                           0000FD   688 _S0_IF_FIRST	=	0x00fd
+                           0000FC   689 _S0_IF_BYTE	=	0x00fc
+                           0000FB   690 _S0_FREE	=	0x00fb
+                           0000FA   691 _S0_T_FIFO	=	0x00fa
+                           0000F9   692 _S0_R_FIFO1	=	0x00f9
+                           0000F8   693 _S0_R_FIFO0	=	0x00f8
+                           0000DF   694 _U_IS_NAK	=	0x00df
+                           0000DE   695 _U_TOG_OK	=	0x00de
+                           0000DD   696 _U_SIE_FREE	=	0x00dd
+                           0000DC   697 _UIF_FIFO_OV	=	0x00dc
+                           0000DA   698 _UIF_SUSPEND	=	0x00da
+                           0000D9   699 _UIF_TRANSFER	=	0x00d9
+                           0000D8   700 _UIF_BUS_RST	=	0x00d8
+                                    701 ;--------------------------------------------------------
+                                    702 ; overlayable register banks
+                                    703 ;--------------------------------------------------------
+                                    704 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        705 	.ds 8
+                                    706 	.area REG_BANK_1	(REL,OVR,DATA)
+      000000                        707 	.ds 8
+                                    708 ;--------------------------------------------------------
+                                    709 ; internal ram data
+                                    710 ;--------------------------------------------------------
+                                    711 	.area DSEG    (DATA)
+                                    712 ;--------------------------------------------------------
+                                    713 ; overlayable items in internal ram 
+                                    714 ;--------------------------------------------------------
+                                    715 	.area	OSEG    (OVR,DATA)
+      000000                        716 _mmov_sloc0_1_0:
+      000000                        717 	.ds 3
+      000003                        718 _mmov_sloc1_1_0:
+      000003                        719 	.ds 2
+      000005                        720 _mmov_sloc2_1_0:
+      000005                        721 	.ds 2
+      000007                        722 _mmov_sloc3_1_0:
+      000007                        723 	.ds 3
+      00000A                        724 _mmov_sloc4_1_0:
+      00000A                        725 	.ds 3
+                                    726 ;--------------------------------------------------------
+                                    727 ; indirectly addressable internal ram data
+                                    728 ;--------------------------------------------------------
+                                    729 	.area ISEG    (DATA)
+                                    730 ;--------------------------------------------------------
+                                    731 ; absolute internal ram data
+                                    732 ;--------------------------------------------------------
+                                    733 	.area IABS    (ABS,DATA)
+                                    734 	.area IABS    (ABS,DATA)
+                                    735 ;--------------------------------------------------------
+                                    736 ; bit data
+                                    737 ;--------------------------------------------------------
+                                    738 	.area BSEG    (BIT)
+      000000                        739 _busy::
+      000000                        740 	.ds 1
+      000001                        741 _block_recv::
+      000001                        742 	.ds 1
+                                    743 ;--------------------------------------------------------
+                                    744 ; paged external ram data
+                                    745 ;--------------------------------------------------------
+                                    746 	.area PSEG    (PAG,XDATA)
+                           000046   747 _pUEP4_1_MOD	=	0x0046
+                           000047   748 _pUEP2_3_MOD	=	0x0047
+                           000048   749 _pUEP0_DMA_H	=	0x0048
+                           000049   750 _pUEP0_DMA_L	=	0x0049
+                           000048   751 _pUEP0_DMA	=	0x0048
+                           00004A   752 _pUEP1_DMA_H	=	0x004a
+                           00004B   753 _pUEP1_DMA_L	=	0x004b
+                           00004A   754 _pUEP1_DMA	=	0x004a
+                           00004C   755 _pUEP2_DMA_H	=	0x004c
+                           00004D   756 _pUEP2_DMA_L	=	0x004d
+                           00004C   757 _pUEP2_DMA	=	0x004c
+                           00004E   758 _pUEP3_DMA_H	=	0x004e
+                           00004F   759 _pUEP3_DMA_L	=	0x004f
+                           00004E   760 _pUEP3_DMA	=	0x004e
+                           000080   761 _pLED_STAT	=	0x0080
+                           000081   762 _pLED_CTRL	=	0x0081
+                           000082   763 _pLED_DATA	=	0x0082
+                           000083   764 _pLED_CK_SE	=	0x0083
+                           000084   765 _pLED_DMA_AH	=	0x0084
+                           000085   766 _pLED_DMA_AL	=	0x0085
+                           000084   767 _pLED_DMA	=	0x0084
+                           000086   768 _pLED_DMA_CN	=	0x0086
+                           000088   769 _pLED_DMA_XH	=	0x0088
+                           000089   770 _pLED_DMA_XL	=	0x0089
+                           000088   771 _pLED_DMA_X	=	0x0088
+                                    772 ;--------------------------------------------------------
+                                    773 ; external ram data
+                                    774 ;--------------------------------------------------------
+                                    775 	.area XSEG    (XDATA)
+                           002446   776 _UEP4_1_MOD	=	0x2446
+                           002447   777 _UEP2_3_MOD	=	0x2447
+                           002448   778 _UEP0_DMA_H	=	0x2448
+                           002449   779 _UEP0_DMA_L	=	0x2449
+                           002448   780 _UEP0_DMA	=	0x2448
+                           00244A   781 _UEP1_DMA_H	=	0x244a
+                           00244B   782 _UEP1_DMA_L	=	0x244b
+                           00244A   783 _UEP1_DMA	=	0x244a
+                           00244C   784 _UEP2_DMA_H	=	0x244c
+                           00244D   785 _UEP2_DMA_L	=	0x244d
+                           00244C   786 _UEP2_DMA	=	0x244c
+                           00244E   787 _UEP3_DMA_H	=	0x244e
+                           00244F   788 _UEP3_DMA_L	=	0x244f
+                           00244E   789 _UEP3_DMA	=	0x244e
+                           002880   790 _LED_STAT	=	0x2880
+                           002881   791 _LED_CTRL	=	0x2881
+                           002882   792 _LED_DATA	=	0x2882
+                           002883   793 _LED_CK_SE	=	0x2883
+                           002884   794 _LED_DMA_AH	=	0x2884
+                           002885   795 _LED_DMA_AL	=	0x2885
+                           002884   796 _LED_DMA	=	0x2884
+                           002886   797 _LED_DMA_CN	=	0x2886
+                           002888   798 _LED_DMA_XH	=	0x2888
+                           002889   799 _LED_DMA_XL	=	0x2889
+                           002888   800 _LED_DMA_X	=	0x2888
+      000000                        801 _mc::
+      000000                        802 	.ds 2
+      000002                        803 _mset_PARM_2:
+      000002                        804 	.ds 1
+      000003                        805 _mset_PARM_3:
+      000003                        806 	.ds 2
+      000005                        807 _mset_ptr_65536_17:
+      000005                        808 	.ds 3
+      000008                        809 _mmov_PARM_2:
+      000008                        810 	.ds 3
+      00000B                        811 _mmov_PARM_3:
+      00000B                        812 	.ds 2
+      00000D                        813 _mmov_dst_65536_20:
+      00000D                        814 	.ds 3
+      000010                        815 _delay_t_65536_27:
+      000010                        816 	.ds 2
+      000012                        817 _delay_us_t_65536_30:
+      000012                        818 	.ds 2
+      000014                        819 _x::
+      000014                        820 	.ds 4
+      000018                        821 _x2::
+      000018                        822 	.ds 1
+      000019                        823 _sbuf::
+      000019                        824 	.ds 1
+      00001A                        825 _uart0Config_baud_65536_37:
+      00001A                        826 	.ds 4
+      00001E                        827 _uart0Send_data_65536_44:
+      00001E                        828 	.ds 1
+      00001F                        829 _uart0Write_s_65536_46:
+      00001F                        830 	.ds 3
+      000022                        831 _uart0Gets_PARM_2:
+      000022                        832 	.ds 1
+      000023                        833 _uart0Gets_dat_65536_51:
+      000023                        834 	.ds 3
+      000026                        835 _uart0BlockRecv_PARM_2:
+      000026                        836 	.ds 2
+      000028                        837 _uart0BlockRecv_ptr_65536_54:
+      000028                        838 	.ds 3
+      00002B                        839 _uart1Config_baud_65536_59:
+      00002B                        840 	.ds 4
+      00002F                        841 _uart1Send_data_65536_61:
+      00002F                        842 	.ds 1
+      000030                        843 _uart1Write_s_65536_63:
+      000030                        844 	.ds 3
+      000033                        845 _u1t::
+      000033                        846 	.ds 4
+      000037                        847 _u1c::
+      000037                        848 	.ds 1
+      000038                        849 _uart1Gets_PARM_2:
+      000038                        850 	.ds 1
+      000039                        851 _uart1Gets_dat_65536_69:
+      000039                        852 	.ds 3
+      00003C                        853 _pwm3Init_freq_65536_73:
+      00003C                        854 	.ds 4
+      000040                        855 _pwm3Duty_duty_65536_75:
+      000040                        856 	.ds 1
+      000041                        857 _adcGet_channel_65536_78:
+      000041                        858 	.ds 1
+                                    859 ;--------------------------------------------------------
+                                    860 ; absolute external ram data
+                                    861 ;--------------------------------------------------------
+                                    862 	.area XABS    (ABS,XDATA)
+                                    863 ;--------------------------------------------------------
+                                    864 ; external initialized ram data
+                                    865 ;--------------------------------------------------------
+                                    866 	.area XISEG   (XDATA)
+      000000                        867 _sysTickCount::
+      000000                        868 	.ds 4
+      000004                        869 _recBuf0:
+      000004                        870 	.ds 32
+      000024                        871 _recPtr0::
+      000024                        872 	.ds 1
+      000025                        873 _block_recv_ptr::
+      000025                        874 	.ds 3
+      000028                        875 _block_recv_pos::
+      000028                        876 	.ds 2
+      00002A                        877 _block_recv_siz::
+      00002A                        878 	.ds 2
+                                    879 	.area HOME    (CODE)
+                                    880 	.area GSINIT0 (CODE)
+                                    881 	.area GSINIT1 (CODE)
+                                    882 	.area GSINIT2 (CODE)
+                                    883 	.area GSINIT3 (CODE)
+                                    884 	.area GSINIT4 (CODE)
+                                    885 	.area GSINIT5 (CODE)
+                                    886 	.area GSINIT  (CODE)
+                                    887 	.area GSFINAL (CODE)
+                                    888 	.area CSEG    (CODE)
+                                    889 ;--------------------------------------------------------
+                                    890 ; global & static initialisations
+                                    891 ;--------------------------------------------------------
+                                    892 	.area HOME    (CODE)
+                                    893 	.area GSINIT  (CODE)
+                                    894 	.area GSFINAL (CODE)
+                                    895 	.area GSINIT  (CODE)
+                                    896 ;	E:\Works\NSHET\sys.c:173: volatile BOOL busy = 0;
+                                    897 ;	assignBit
+      000000 C2*00            [12]  898 	clr	_busy
+                                    899 ;	E:\Works\NSHET\sys.c:177: BOOL block_recv = 0;
+                                    900 ;	assignBit
+      000002 C2*01            [12]  901 	clr	_block_recv
+                                    902 ;--------------------------------------------------------
+                                    903 ; Home
+                                    904 ;--------------------------------------------------------
+                                    905 	.area HOME    (CODE)
+                                    906 	.area HOME    (CODE)
+                                    907 ;--------------------------------------------------------
+                                    908 ; code
+                                    909 ;--------------------------------------------------------
+                                    910 	.area CSEG    (CODE)
+                                    911 ;------------------------------------------------------------
+                                    912 ;Allocation info for local variables in function 'mset'
+                                    913 ;------------------------------------------------------------
+                                    914 ;val                       Allocated with name '_mset_PARM_2'
+                                    915 ;siz                       Allocated with name '_mset_PARM_3'
+                                    916 ;ptr                       Allocated with name '_mset_ptr_65536_17'
+                                    917 ;------------------------------------------------------------
+                                    918 ;	E:\Works\NSHET\sys.c:5: void mset(uint8_t* ptr, uint8_t val, size_t siz) {
+                                    919 ;	-----------------------------------------
+                                    920 ;	 function mset
+                                    921 ;	-----------------------------------------
+      000000                        922 _mset:
+                           000007   923 	ar7 = 0x07
+                           000006   924 	ar6 = 0x06
+                           000005   925 	ar5 = 0x05
+                           000004   926 	ar4 = 0x04
+                           000003   927 	ar3 = 0x03
+                           000002   928 	ar2 = 0x02
+                           000001   929 	ar1 = 0x01
+                           000000   930 	ar0 = 0x00
+      000000 AF F0            [24]  931 	mov	r7,b
+      000002 AE 83            [24]  932 	mov	r6,dph
+      000004 E5 82            [12]  933 	mov	a,dpl
+      000006 90r00r05         [24]  934 	mov	dptr,#_mset_ptr_65536_17
+      000009 F0               [24]  935 	movx	@dptr,a
+      00000A EE               [12]  936 	mov	a,r6
+      00000B A3               [24]  937 	inc	dptr
+      00000C F0               [24]  938 	movx	@dptr,a
+      00000D EF               [12]  939 	mov	a,r7
+      00000E A3               [24]  940 	inc	dptr
+      00000F F0               [24]  941 	movx	@dptr,a
+                                    942 ;	E:\Works\NSHET\sys.c:6: for (mc = 0; mc < siz; mc++)
+      000010 90r00r00         [24]  943 	mov	dptr,#_mc
+      000013 E4               [12]  944 	clr	a
+      000014 F0               [24]  945 	movx	@dptr,a
+      000015 A3               [24]  946 	inc	dptr
+      000016 F0               [24]  947 	movx	@dptr,a
+      000017 90r00r05         [24]  948 	mov	dptr,#_mset_ptr_65536_17
+      00001A E0               [24]  949 	movx	a,@dptr
+      00001B FD               [12]  950 	mov	r5,a
+      00001C A3               [24]  951 	inc	dptr
+      00001D E0               [24]  952 	movx	a,@dptr
+      00001E FE               [12]  953 	mov	r6,a
+      00001F A3               [24]  954 	inc	dptr
+      000020 E0               [24]  955 	movx	a,@dptr
+      000021 FF               [12]  956 	mov	r7,a
+      000022 90r00r02         [24]  957 	mov	dptr,#_mset_PARM_2
+      000025 E0               [24]  958 	movx	a,@dptr
+      000026 FC               [12]  959 	mov	r4,a
+      000027 90r00r03         [24]  960 	mov	dptr,#_mset_PARM_3
+      00002A E0               [24]  961 	movx	a,@dptr
+      00002B FA               [12]  962 	mov	r2,a
+      00002C A3               [24]  963 	inc	dptr
+      00002D E0               [24]  964 	movx	a,@dptr
+      00002E FB               [12]  965 	mov	r3,a
+      00002F                        966 00103$:
+      00002F 90r00r00         [24]  967 	mov	dptr,#_mc
+      000032 E0               [24]  968 	movx	a,@dptr
+      000033 F8               [12]  969 	mov	r0,a
+      000034 A3               [24]  970 	inc	dptr
+      000035 E0               [24]  971 	movx	a,@dptr
+      000036 F9               [12]  972 	mov	r1,a
+      000037 C3               [12]  973 	clr	c
+      000038 E8               [12]  974 	mov	a,r0
+      000039 9A               [12]  975 	subb	a,r2
+      00003A E9               [12]  976 	mov	a,r1
+      00003B 9B               [12]  977 	subb	a,r3
+      00003C 50 28            [24]  978 	jnc	00105$
+                                    979 ;	E:\Works\NSHET\sys.c:7: ptr[mc] = val;
+      00003E C0 02            [24]  980 	push	ar2
+      000040 C0 03            [24]  981 	push	ar3
+      000042 E8               [12]  982 	mov	a,r0
+      000043 2D               [12]  983 	add	a,r5
+      000044 F8               [12]  984 	mov	r0,a
+      000045 E9               [12]  985 	mov	a,r1
+      000046 3E               [12]  986 	addc	a,r6
+      000047 F9               [12]  987 	mov	r1,a
+      000048 8F 03            [24]  988 	mov	ar3,r7
+      00004A 88 82            [24]  989 	mov	dpl,r0
+      00004C 89 83            [24]  990 	mov	dph,r1
+      00004E 8B F0            [24]  991 	mov	b,r3
+      000050 EC               [12]  992 	mov	a,r4
+      000051 12r00r00         [24]  993 	lcall	__gptrput
+                                    994 ;	E:\Works\NSHET\sys.c:6: for (mc = 0; mc < siz; mc++)
+      000054 90r00r00         [24]  995 	mov	dptr,#_mc
+      000057 E0               [24]  996 	movx	a,@dptr
+      000058 24 01            [12]  997 	add	a,#0x01
+      00005A F0               [24]  998 	movx	@dptr,a
+      00005B A3               [24]  999 	inc	dptr
+      00005C E0               [24] 1000 	movx	a,@dptr
+      00005D 34 00            [12] 1001 	addc	a,#0x00
+      00005F F0               [24] 1002 	movx	@dptr,a
+      000060 D0 03            [24] 1003 	pop	ar3
+      000062 D0 02            [24] 1004 	pop	ar2
+      000064 80 C9            [24] 1005 	sjmp	00103$
+      000066                       1006 00105$:
+                                   1007 ;	E:\Works\NSHET\sys.c:8: }
+      000066 22               [24] 1008 	ret
+                                   1009 ;------------------------------------------------------------
+                                   1010 ;Allocation info for local variables in function 'mmov'
+                                   1011 ;------------------------------------------------------------
+                                   1012 ;src                       Allocated with name '_mmov_PARM_2'
+                                   1013 ;siz                       Allocated with name '_mmov_PARM_3'
+                                   1014 ;dst                       Allocated with name '_mmov_dst_65536_20'
+                                   1015 ;sloc0                     Allocated with name '_mmov_sloc0_1_0'
+                                   1016 ;sloc1                     Allocated with name '_mmov_sloc1_1_0'
+                                   1017 ;sloc2                     Allocated with name '_mmov_sloc2_1_0'
+                                   1018 ;sloc3                     Allocated with name '_mmov_sloc3_1_0'
+                                   1019 ;sloc4                     Allocated with name '_mmov_sloc4_1_0'
+                                   1020 ;------------------------------------------------------------
+                                   1021 ;	E:\Works\NSHET\sys.c:10: void mmov(uint8_t* dst, uint8_t* src, size_t siz) {
+                                   1022 ;	-----------------------------------------
+                                   1023 ;	 function mmov
+                                   1024 ;	-----------------------------------------
+      000067                       1025 _mmov:
+      000067 AF F0            [24] 1026 	mov	r7,b
+      000069 AE 83            [24] 1027 	mov	r6,dph
+      00006B E5 82            [12] 1028 	mov	a,dpl
+      00006D 90r00r0D         [24] 1029 	mov	dptr,#_mmov_dst_65536_20
+      000070 F0               [24] 1030 	movx	@dptr,a
+      000071 EE               [12] 1031 	mov	a,r6
+      000072 A3               [24] 1032 	inc	dptr
+      000073 F0               [24] 1033 	movx	@dptr,a
+      000074 EF               [12] 1034 	mov	a,r7
+      000075 A3               [24] 1035 	inc	dptr
+      000076 F0               [24] 1036 	movx	@dptr,a
+                                   1037 ;	E:\Works\NSHET\sys.c:11: if (dst < src) {
+      000077 90r00r0D         [24] 1038 	mov	dptr,#_mmov_dst_65536_20
+      00007A E0               [24] 1039 	movx	a,@dptr
+      00007B FD               [12] 1040 	mov	r5,a
+      00007C A3               [24] 1041 	inc	dptr
+      00007D E0               [24] 1042 	movx	a,@dptr
+      00007E FE               [12] 1043 	mov	r6,a
+      00007F A3               [24] 1044 	inc	dptr
+      000080 E0               [24] 1045 	movx	a,@dptr
+      000081 FF               [12] 1046 	mov	r7,a
+      000082 90r00r08         [24] 1047 	mov	dptr,#_mmov_PARM_2
+      000085 E0               [24] 1048 	movx	a,@dptr
+      000086 F5*07            [12] 1049 	mov	_mmov_sloc3_1_0,a
+      000088 A3               [24] 1050 	inc	dptr
+      000089 E0               [24] 1051 	movx	a,@dptr
+      00008A F5*08            [12] 1052 	mov	(_mmov_sloc3_1_0 + 1),a
+      00008C A3               [24] 1053 	inc	dptr
+      00008D E0               [24] 1054 	movx	a,@dptr
+      00008E F5*09            [12] 1055 	mov	(_mmov_sloc3_1_0 + 2),a
+      000090 C0*07            [24] 1056 	push	_mmov_sloc3_1_0
+      000092 C0*08            [24] 1057 	push	(_mmov_sloc3_1_0 + 1)
+      000094 C0*09            [24] 1058 	push	(_mmov_sloc3_1_0 + 2)
+      000096 8D 82            [24] 1059 	mov	dpl,r5
+      000098 8E 83            [24] 1060 	mov	dph,r6
+      00009A 8F F0            [24] 1061 	mov	b,r7
+      00009C 12r00r00         [24] 1062 	lcall	___gptr_cmp
+      00009F 15 81            [12] 1063 	dec	sp
+      0000A1 15 81            [12] 1064 	dec	sp
+      0000A3 15 81            [12] 1065 	dec	sp
+      0000A5 40 03            [24] 1066 	jc	00136$
+      0000A7 02r01r1F         [24] 1067 	ljmp	00112$
+      0000AA                       1068 00136$:
+                                   1069 ;	E:\Works\NSHET\sys.c:12: mc = 0;
+      0000AA 90r00r00         [24] 1070 	mov	dptr,#_mc
+      0000AD E4               [12] 1071 	clr	a
+      0000AE F0               [24] 1072 	movx	@dptr,a
+      0000AF A3               [24] 1073 	inc	dptr
+      0000B0 F0               [24] 1074 	movx	@dptr,a
+                                   1075 ;	E:\Works\NSHET\sys.c:13: while (1) {
+      0000B1 8D*00            [24] 1076 	mov	_mmov_sloc0_1_0,r5
+      0000B3 8E*01            [24] 1077 	mov	(_mmov_sloc0_1_0 + 1),r6
+      0000B5 8F*02            [24] 1078 	mov	(_mmov_sloc0_1_0 + 2),r7
+      0000B7 90r00r0B         [24] 1079 	mov	dptr,#_mmov_PARM_3
+      0000BA E0               [24] 1080 	movx	a,@dptr
+      0000BB F5*03            [12] 1081 	mov	_mmov_sloc1_1_0,a
+      0000BD A3               [24] 1082 	inc	dptr
+      0000BE E0               [24] 1083 	movx	a,@dptr
+      0000BF F5*04            [12] 1084 	mov	(_mmov_sloc1_1_0 + 1),a
+      0000C1                       1085 00104$:
+                                   1086 ;	E:\Works\NSHET\sys.c:14: dst[mc] = src[mc];
+      0000C1 90r00r00         [24] 1087 	mov	dptr,#_mc
+      0000C4 E0               [24] 1088 	movx	a,@dptr
+      0000C5 F5*05            [12] 1089 	mov	_mmov_sloc2_1_0,a
+      0000C7 A3               [24] 1090 	inc	dptr
+      0000C8 E0               [24] 1091 	movx	a,@dptr
+      0000C9 F5*06            [12] 1092 	mov	(_mmov_sloc2_1_0 + 1),a
+      0000CB E5*05            [12] 1093 	mov	a,_mmov_sloc2_1_0
+      0000CD 25*00            [12] 1094 	add	a,_mmov_sloc0_1_0
+      0000CF F5*0A            [12] 1095 	mov	_mmov_sloc4_1_0,a
+      0000D1 E5*06            [12] 1096 	mov	a,(_mmov_sloc2_1_0 + 1)
+      0000D3 35*01            [12] 1097 	addc	a,(_mmov_sloc0_1_0 + 1)
+      0000D5 F5*0B            [12] 1098 	mov	(_mmov_sloc4_1_0 + 1),a
+      0000D7 85*02*0C         [24] 1099 	mov	(_mmov_sloc4_1_0 + 2),(_mmov_sloc0_1_0 + 2)
+      0000DA E5*05            [12] 1100 	mov	a,_mmov_sloc2_1_0
+      0000DC 25*07            [12] 1101 	add	a,_mmov_sloc3_1_0
+      0000DE FA               [12] 1102 	mov	r2,a
+      0000DF E5*06            [12] 1103 	mov	a,(_mmov_sloc2_1_0 + 1)
+      0000E1 35*08            [12] 1104 	addc	a,(_mmov_sloc3_1_0 + 1)
+      0000E3 FB               [12] 1105 	mov	r3,a
+      0000E4 AC*09            [24] 1106 	mov	r4,(_mmov_sloc3_1_0 + 2)
+      0000E6 8A 82            [24] 1107 	mov	dpl,r2
+      0000E8 8B 83            [24] 1108 	mov	dph,r3
+      0000EA 8C F0            [24] 1109 	mov	b,r4
+      0000EC 12r00r00         [24] 1110 	lcall	__gptrget
+      0000EF 85*0A 82         [24] 1111 	mov	dpl,_mmov_sloc4_1_0
+      0000F2 85*0B 83         [24] 1112 	mov	dph,(_mmov_sloc4_1_0 + 1)
+      0000F5 85*0C F0         [24] 1113 	mov	b,(_mmov_sloc4_1_0 + 2)
+      0000F8 12r00r00         [24] 1114 	lcall	__gptrput
+                                   1115 ;	E:\Works\NSHET\sys.c:15: mc += 1;
+      0000FB 90r00r00         [24] 1116 	mov	dptr,#_mc
+      0000FE E0               [24] 1117 	movx	a,@dptr
+      0000FF FB               [12] 1118 	mov	r3,a
+      000100 A3               [24] 1119 	inc	dptr
+      000101 E0               [24] 1120 	movx	a,@dptr
+      000102 FC               [12] 1121 	mov	r4,a
+      000103 90r00r00         [24] 1122 	mov	dptr,#_mc
+      000106 74 01            [12] 1123 	mov	a,#0x01
+      000108 2B               [12] 1124 	add	a,r3
+      000109 F0               [24] 1125 	movx	@dptr,a
+      00010A E4               [12] 1126 	clr	a
+      00010B 3C               [12] 1127 	addc	a,r4
+      00010C A3               [24] 1128 	inc	dptr
+      00010D F0               [24] 1129 	movx	@dptr,a
+                                   1130 ;	E:\Works\NSHET\sys.c:16: if (mc == siz)
+      00010E 90r00r00         [24] 1131 	mov	dptr,#_mc
+      000111 E0               [24] 1132 	movx	a,@dptr
+      000112 FB               [12] 1133 	mov	r3,a
+      000113 A3               [24] 1134 	inc	dptr
+      000114 E0               [24] 1135 	movx	a,@dptr
+      000115 FC               [12] 1136 	mov	r4,a
+      000116 EB               [12] 1137 	mov	a,r3
+      000117 B5*03 A7         [24] 1138 	cjne	a,_mmov_sloc1_1_0,00104$
+      00011A EC               [12] 1139 	mov	a,r4
+      00011B B5*04 A3         [24] 1140 	cjne	a,(_mmov_sloc1_1_0 + 1),00104$
+                                   1141 ;	E:\Works\NSHET\sys.c:17: break;
+      00011E 22               [24] 1142 	ret
+      00011F                       1143 00112$:
+                                   1144 ;	E:\Works\NSHET\sys.c:20: mc = siz - 1;
+      00011F 90r00r0B         [24] 1145 	mov	dptr,#_mmov_PARM_3
+      000122 E0               [24] 1146 	movx	a,@dptr
+      000123 FB               [12] 1147 	mov	r3,a
+      000124 A3               [24] 1148 	inc	dptr
+      000125 E0               [24] 1149 	movx	a,@dptr
+      000126 FC               [12] 1150 	mov	r4,a
+      000127 1B               [12] 1151 	dec	r3
+      000128 BB FF 01         [24] 1152 	cjne	r3,#0xff,00139$
+      00012B 1C               [12] 1153 	dec	r4
+      00012C                       1154 00139$:
+      00012C 90r00r00         [24] 1155 	mov	dptr,#_mc
+      00012F EB               [12] 1156 	mov	a,r3
+      000130 F0               [24] 1157 	movx	@dptr,a
+      000131 EC               [12] 1158 	mov	a,r4
+      000132 A3               [24] 1159 	inc	dptr
+      000133 F0               [24] 1160 	movx	@dptr,a
+                                   1161 ;	E:\Works\NSHET\sys.c:21: while (1) {
+      000134                       1162 00109$:
+                                   1163 ;	E:\Works\NSHET\sys.c:22: dst[mc] = src[mc];
+      000134 90r00r00         [24] 1164 	mov	dptr,#_mc
+      000137 E0               [24] 1165 	movx	a,@dptr
+      000138 FB               [12] 1166 	mov	r3,a
+      000139 A3               [24] 1167 	inc	dptr
+      00013A E0               [24] 1168 	movx	a,@dptr
+      00013B FC               [12] 1169 	mov	r4,a
+      00013C EB               [12] 1170 	mov	a,r3
+      00013D 2D               [12] 1171 	add	a,r5
+      00013E F8               [12] 1172 	mov	r0,a
+      00013F EC               [12] 1173 	mov	a,r4
+      000140 3E               [12] 1174 	addc	a,r6
+      000141 F9               [12] 1175 	mov	r1,a
+      000142 8F 02            [24] 1176 	mov	ar2,r7
+      000144 C0 05            [24] 1177 	push	ar5
+      000146 C0 06            [24] 1178 	push	ar6
+      000148 C0 07            [24] 1179 	push	ar7
+      00014A EB               [12] 1180 	mov	a,r3
+      00014B 25*07            [12] 1181 	add	a,_mmov_sloc3_1_0
+      00014D FB               [12] 1182 	mov	r3,a
+      00014E EC               [12] 1183 	mov	a,r4
+      00014F 35*08            [12] 1184 	addc	a,(_mmov_sloc3_1_0 + 1)
+      000151 FC               [12] 1185 	mov	r4,a
+      000152 AF*09            [24] 1186 	mov	r7,(_mmov_sloc3_1_0 + 2)
+      000154 8B 82            [24] 1187 	mov	dpl,r3
+      000156 8C 83            [24] 1188 	mov	dph,r4
+      000158 8F F0            [24] 1189 	mov	b,r7
+      00015A 12r00r00         [24] 1190 	lcall	__gptrget
+      00015D 88 82            [24] 1191 	mov	dpl,r0
+      00015F 89 83            [24] 1192 	mov	dph,r1
+      000161 8A F0            [24] 1193 	mov	b,r2
+      000163 12r00r00         [24] 1194 	lcall	__gptrput
+                                   1195 ;	E:\Works\NSHET\sys.c:23: if (mc == 0)
+      000166 90r00r00         [24] 1196 	mov	dptr,#_mc
+      000169 E0               [24] 1197 	movx	a,@dptr
+      00016A F5*0A            [12] 1198 	mov	_mmov_sloc4_1_0,a
+      00016C A3               [24] 1199 	inc	dptr
+      00016D E0               [24] 1200 	movx	a,@dptr
+      00016E F5*0B            [12] 1201 	mov	(_mmov_sloc4_1_0 + 1),a
+      000170 D0 07            [24] 1202 	pop	ar7
+      000172 D0 06            [24] 1203 	pop	ar6
+      000174 D0 05            [24] 1204 	pop	ar5
+      000176 90r00r00         [24] 1205 	mov	dptr,#_mc
+      000179 E0               [24] 1206 	movx	a,@dptr
+      00017A F5 F0            [12] 1207 	mov	b,a
+      00017C A3               [24] 1208 	inc	dptr
+      00017D E0               [24] 1209 	movx	a,@dptr
+      00017E 45 F0            [12] 1210 	orl	a,b
+      000180 60 14            [24] 1211 	jz	00114$
+                                   1212 ;	E:\Works\NSHET\sys.c:25: mc -= 1;
+      000182 E5*0A            [12] 1213 	mov	a,_mmov_sloc4_1_0
+      000184 24 FF            [12] 1214 	add	a,#0xff
+      000186 FB               [12] 1215 	mov	r3,a
+      000187 E5*0B            [12] 1216 	mov	a,(_mmov_sloc4_1_0 + 1)
+      000189 34 FF            [12] 1217 	addc	a,#0xff
+      00018B FC               [12] 1218 	mov	r4,a
+      00018C 90r00r00         [24] 1219 	mov	dptr,#_mc
+      00018F EB               [12] 1220 	mov	a,r3
+      000190 F0               [24] 1221 	movx	@dptr,a
+      000191 EC               [12] 1222 	mov	a,r4
+      000192 A3               [24] 1223 	inc	dptr
+      000193 F0               [24] 1224 	movx	@dptr,a
+      000194 80 9E            [24] 1225 	sjmp	00109$
+      000196                       1226 00114$:
+                                   1227 ;	E:\Works\NSHET\sys.c:28: }
+      000196 22               [24] 1228 	ret
+                                   1229 ;------------------------------------------------------------
+                                   1230 ;Allocation info for local variables in function 'sysClockConfig'
+                                   1231 ;------------------------------------------------------------
+                                   1232 ;	E:\Works\NSHET\sys.c:30: void sysClockConfig() {
+                                   1233 ;	-----------------------------------------
+                                   1234 ;	 function sysClockConfig
+                                   1235 ;	-----------------------------------------
+      000197                       1236 _sysClockConfig:
+                                   1237 ;	E:\Works\NSHET\sys.c:31: SAFE_MOD = 0x55;
+      000197 75 A1 55         [24] 1238 	mov	_SAFE_MOD,#0x55
+                                   1239 ;	E:\Works\NSHET\sys.c:32: SAFE_MOD = 0xAA;
+      00019A 75 A1 AA         [24] 1240 	mov	_SAFE_MOD,#0xaa
+                                   1241 ;	E:\Works\NSHET\sys.c:33: CLOCK_CFG &= ~MASK_SYS_CK_DIV;
+      00019D 53 B3 E0         [24] 1242 	anl	_CLOCK_CFG,#0xe0
+                                   1243 ;	E:\Works\NSHET\sys.c:34: CLOCK_CFG |= (336000000 / FREQ_SYS);
+      0001A0 43 B3 07         [24] 1244 	orl	_CLOCK_CFG,#0x07
+                                   1245 ;	E:\Works\NSHET\sys.c:35: PLL_CFG = 0xFC; // fPll = 336MHz;
+      0001A3 75 B2 FC         [24] 1246 	mov	_PLL_CFG,#0xfc
+                                   1247 ;	E:\Works\NSHET\sys.c:36: SAFE_MOD = 0xFF;
+      0001A6 75 A1 FF         [24] 1248 	mov	_SAFE_MOD,#0xff
+                                   1249 ;	E:\Works\NSHET\sys.c:47: }
+      0001A9 22               [24] 1250 	ret
+                                   1251 ;------------------------------------------------------------
+                                   1252 ;Allocation info for local variables in function 'delay'
+                                   1253 ;------------------------------------------------------------
+                                   1254 ;t                         Allocated with name '_delay_t_65536_27'
+                                   1255 ;------------------------------------------------------------
+                                   1256 ;	E:\Works\NSHET\sys.c:49: void delay(uint16_t t) {
+                                   1257 ;	-----------------------------------------
+                                   1258 ;	 function delay
+                                   1259 ;	-----------------------------------------
+      0001AA                       1260 _delay:
+      0001AA AF 83            [24] 1261 	mov	r7,dph
+      0001AC E5 82            [12] 1262 	mov	a,dpl
+      0001AE 90r00r10         [24] 1263 	mov	dptr,#_delay_t_65536_27
+      0001B1 F0               [24] 1264 	movx	@dptr,a
+      0001B2 EF               [12] 1265 	mov	a,r7
+      0001B3 A3               [24] 1266 	inc	dptr
+      0001B4 F0               [24] 1267 	movx	@dptr,a
+                                   1268 ;	E:\Works\NSHET\sys.c:50: while (t) {
+      0001B5 90r00r10         [24] 1269 	mov	dptr,#_delay_t_65536_27
+      0001B8 E0               [24] 1270 	movx	a,@dptr
+      0001B9 FE               [12] 1271 	mov	r6,a
+      0001BA A3               [24] 1272 	inc	dptr
+      0001BB E0               [24] 1273 	movx	a,@dptr
+      0001BC FF               [12] 1274 	mov	r7,a
+      0001BD                       1275 00101$:
+      0001BD EE               [12] 1276 	mov	a,r6
+      0001BE 4F               [12] 1277 	orl	a,r7
+      0001BF 60 1D            [24] 1278 	jz	00108$
+                                   1279 ;	E:\Works\NSHET\sys.c:51: delay_us(1000);
+      0001C1 90 03 E8         [24] 1280 	mov	dptr,#0x03e8
+      0001C4 C0 07            [24] 1281 	push	ar7
+      0001C6 C0 06            [24] 1282 	push	ar6
+      0001C8 12r01rE7         [24] 1283 	lcall	_delay_us
+      0001CB D0 06            [24] 1284 	pop	ar6
+      0001CD D0 07            [24] 1285 	pop	ar7
+                                   1286 ;	E:\Works\NSHET\sys.c:52: -- t;
+      0001CF 1E               [12] 1287 	dec	r6
+      0001D0 BE FF 01         [24] 1288 	cjne	r6,#0xff,00116$
+      0001D3 1F               [12] 1289 	dec	r7
+      0001D4                       1290 00116$:
+      0001D4 90r00r10         [24] 1291 	mov	dptr,#_delay_t_65536_27
+      0001D7 EE               [12] 1292 	mov	a,r6
+      0001D8 F0               [24] 1293 	movx	@dptr,a
+      0001D9 EF               [12] 1294 	mov	a,r7
+      0001DA A3               [24] 1295 	inc	dptr
+      0001DB F0               [24] 1296 	movx	@dptr,a
+      0001DC 80 DF            [24] 1297 	sjmp	00101$
+      0001DE                       1298 00108$:
+      0001DE 90r00r10         [24] 1299 	mov	dptr,#_delay_t_65536_27
+      0001E1 EE               [12] 1300 	mov	a,r6
+      0001E2 F0               [24] 1301 	movx	@dptr,a
+      0001E3 EF               [12] 1302 	mov	a,r7
+      0001E4 A3               [24] 1303 	inc	dptr
+      0001E5 F0               [24] 1304 	movx	@dptr,a
+                                   1305 ;	E:\Works\NSHET\sys.c:54: }
+      0001E6 22               [24] 1306 	ret
+                                   1307 ;------------------------------------------------------------
+                                   1308 ;Allocation info for local variables in function 'delay_us'
+                                   1309 ;------------------------------------------------------------
+                                   1310 ;t                         Allocated with name '_delay_us_t_65536_30'
+                                   1311 ;------------------------------------------------------------
+                                   1312 ;	E:\Works\NSHET\sys.c:56: void delay_us(uint16_t t) {
+                                   1313 ;	-----------------------------------------
+                                   1314 ;	 function delay_us
+                                   1315 ;	-----------------------------------------
+      0001E7                       1316 _delay_us:
+      0001E7 AF 83            [24] 1317 	mov	r7,dph
+      0001E9 E5 82            [12] 1318 	mov	a,dpl
+      0001EB 90r00r12         [24] 1319 	mov	dptr,#_delay_us_t_65536_30
+      0001EE F0               [24] 1320 	movx	@dptr,a
+      0001EF EF               [12] 1321 	mov	a,r7
+      0001F0 A3               [24] 1322 	inc	dptr
+      0001F1 F0               [24] 1323 	movx	@dptr,a
+                                   1324 ;	E:\Works\NSHET\sys.c:57: while (t) {
+      0001F2 90r00r12         [24] 1325 	mov	dptr,#_delay_us_t_65536_30
+      0001F5 E0               [24] 1326 	movx	a,@dptr
+      0001F6 FE               [12] 1327 	mov	r6,a
+      0001F7 A3               [24] 1328 	inc	dptr
+      0001F8 E0               [24] 1329 	movx	a,@dptr
+      0001F9 FF               [12] 1330 	mov	r7,a
+      0001FA                       1331 00101$:
+      0001FA EE               [12] 1332 	mov	a,r6
+      0001FB 4F               [12] 1333 	orl	a,r7
+      0001FC 60 35            [24] 1334 	jz	00108$
+                                   1335 ;	E:\Works\NSHET\sys.c:58: ++ SAFE_MOD;
+      0001FE 05 A1            [12] 1336 	inc	_SAFE_MOD
+                                   1337 ;	E:\Works\NSHET\sys.c:61: ++ SAFE_MOD;
+      000200 05 A1            [12] 1338 	inc	_SAFE_MOD
+                                   1339 ;	E:\Works\NSHET\sys.c:64: ++ SAFE_MOD;
+      000202 05 A1            [12] 1340 	inc	_SAFE_MOD
+                                   1341 ;	E:\Works\NSHET\sys.c:67: ++ SAFE_MOD;
+      000204 05 A1            [12] 1342 	inc	_SAFE_MOD
+                                   1343 ;	E:\Works\NSHET\sys.c:70: ++ SAFE_MOD;
+      000206 05 A1            [12] 1344 	inc	_SAFE_MOD
+                                   1345 ;	E:\Works\NSHET\sys.c:73: ++ SAFE_MOD;
+      000208 05 A1            [12] 1346 	inc	_SAFE_MOD
+                                   1347 ;	E:\Works\NSHET\sys.c:76: ++ SAFE_MOD;
+      00020A 05 A1            [12] 1348 	inc	_SAFE_MOD
+                                   1349 ;	E:\Works\NSHET\sys.c:79: ++ SAFE_MOD;
+      00020C 05 A1            [12] 1350 	inc	_SAFE_MOD
+                                   1351 ;	E:\Works\NSHET\sys.c:82: ++ SAFE_MOD;
+      00020E 05 A1            [12] 1352 	inc	_SAFE_MOD
+                                   1353 ;	E:\Works\NSHET\sys.c:85: ++ SAFE_MOD;
+      000210 05 A1            [12] 1354 	inc	_SAFE_MOD
+                                   1355 ;	E:\Works\NSHET\sys.c:88: ++ SAFE_MOD;
+      000212 05 A1            [12] 1356 	inc	_SAFE_MOD
+                                   1357 ;	E:\Works\NSHET\sys.c:91: ++ SAFE_MOD;
+      000214 05 A1            [12] 1358 	inc	_SAFE_MOD
+                                   1359 ;	E:\Works\NSHET\sys.c:94: ++ SAFE_MOD;
+      000216 05 A1            [12] 1360 	inc	_SAFE_MOD
+                                   1361 ;	E:\Works\NSHET\sys.c:97: ++ SAFE_MOD;
+      000218 05 A1            [12] 1362 	inc	_SAFE_MOD
+                                   1363 ;	E:\Works\NSHET\sys.c:100: ++ SAFE_MOD;
+      00021A 05 A1            [12] 1364 	inc	_SAFE_MOD
+                                   1365 ;	E:\Works\NSHET\sys.c:103: ++ SAFE_MOD;
+      00021C 05 A1            [12] 1366 	inc	_SAFE_MOD
+                                   1367 ;	E:\Works\NSHET\sys.c:106: ++ SAFE_MOD;
+      00021E 05 A1            [12] 1368 	inc	_SAFE_MOD
+                                   1369 ;	E:\Works\NSHET\sys.c:109: ++ SAFE_MOD;
+      000220 05 A1            [12] 1370 	inc	_SAFE_MOD
+                                   1371 ;	E:\Works\NSHET\sys.c:112: ++ SAFE_MOD;
+      000222 05 A1            [12] 1372 	inc	_SAFE_MOD
+                                   1373 ;	E:\Works\NSHET\sys.c:127: -- t;
+      000224 1E               [12] 1374 	dec	r6
+      000225 BE FF 01         [24] 1375 	cjne	r6,#0xff,00116$
+      000228 1F               [12] 1376 	dec	r7
+      000229                       1377 00116$:
+      000229 90r00r12         [24] 1378 	mov	dptr,#_delay_us_t_65536_30
+      00022C EE               [12] 1379 	mov	a,r6
+      00022D F0               [24] 1380 	movx	@dptr,a
+      00022E EF               [12] 1381 	mov	a,r7
+      00022F A3               [24] 1382 	inc	dptr
+      000230 F0               [24] 1383 	movx	@dptr,a
+      000231 80 C7            [24] 1384 	sjmp	00101$
+      000233                       1385 00108$:
+      000233 90r00r12         [24] 1386 	mov	dptr,#_delay_us_t_65536_30
+      000236 EE               [12] 1387 	mov	a,r6
+      000237 F0               [24] 1388 	movx	@dptr,a
+      000238 EF               [12] 1389 	mov	a,r7
+      000239 A3               [24] 1390 	inc	dptr
+      00023A F0               [24] 1391 	movx	@dptr,a
+                                   1392 ;	E:\Works\NSHET\sys.c:129: }
+      00023B 22               [24] 1393 	ret
+                                   1394 ;------------------------------------------------------------
+                                   1395 ;Allocation info for local variables in function 'sysTickConfig'
+                                   1396 ;------------------------------------------------------------
+                                   1397 ;	E:\Works\NSHET\sys.c:131: void sysTickConfig() {
+                                   1398 ;	-----------------------------------------
+                                   1399 ;	 function sysTickConfig
+                                   1400 ;	-----------------------------------------
+      00023C                       1401 _sysTickConfig:
+                                   1402 ;	E:\Works\NSHET\sys.c:132: T2MOD &= ~bT2_CLK;
+      00023C 53 C9 BF         [24] 1403 	anl	_T2MOD,#0xbf
+                                   1404 ;	E:\Works\NSHET\sys.c:133: C_T2 = 0;
+                                   1405 ;	assignBit
+      00023F C2 C9            [12] 1406 	clr	_C_T2
+                                   1407 ;	E:\Works\NSHET\sys.c:134: RCAP2 = T2COUNT = 0xFFFF - (uint16_t) (FREQ_SYS / 12 / 1000);   // 1000Hz
+      000241 75 CC 5F         [24] 1408 	mov	((_T2COUNT >> 0) & 0xFF),#0x5f
+      000244 75 CD F0         [24] 1409 	mov	((_T2COUNT >> 8) & 0xFF),#0xf0
+      000247 75 CA 5F         [24] 1410 	mov	((_RCAP2 >> 0) & 0xFF),#0x5f
+      00024A 75 CB F0         [24] 1411 	mov	((_RCAP2 >> 8) & 0xFF),#0xf0
+                                   1412 ;	E:\Works\NSHET\sys.c:135: TR2 = 1;
+                                   1413 ;	assignBit
+      00024D D2 CA            [12] 1414 	setb	_TR2
+                                   1415 ;	E:\Works\NSHET\sys.c:136: ET2 = 1;
+                                   1416 ;	assignBit
+      00024F D2 AD            [12] 1417 	setb	_ET2
+                                   1418 ;	E:\Works\NSHET\sys.c:137: }
+      000251 22               [24] 1419 	ret
+                                   1420 ;------------------------------------------------------------
+                                   1421 ;Allocation info for local variables in function '__tim2_interrupt'
+                                   1422 ;------------------------------------------------------------
+                                   1423 ;	E:\Works\NSHET\sys.c:141: void __tim2_interrupt() __interrupt (INT_NO_TMR2) __using (1) {
+                                   1424 ;	-----------------------------------------
+                                   1425 ;	 function __tim2_interrupt
+                                   1426 ;	-----------------------------------------
+      000252                       1427 ___tim2_interrupt:
+                           00000F  1428 	ar7 = 0x0f
+                           00000E  1429 	ar6 = 0x0e
+                           00000D  1430 	ar5 = 0x0d
+                           00000C  1431 	ar4 = 0x0c
+                           00000B  1432 	ar3 = 0x0b
+                           00000A  1433 	ar2 = 0x0a
+                           000009  1434 	ar1 = 0x09
+                           000008  1435 	ar0 = 0x08
+      000252 C0 E0            [24] 1436 	push	acc
+      000254 C0 82            [24] 1437 	push	dpl
+      000256 C0 83            [24] 1438 	push	dph
+      000258 C0 D0            [24] 1439 	push	psw
+      00025A 75 D0 08         [24] 1440 	mov	psw,#0x08
+                                   1441 ;	E:\Works\NSHET\sys.c:142: if (TF2) {
+                                   1442 ;	E:\Works\NSHET\sys.c:143: TF2 = 0;
+                                   1443 ;	assignBit
+      00025D 10 CF 02         [24] 1444 	jbc	_TF2,00109$
+      000260 80 21            [24] 1445 	sjmp	00103$
+      000262                       1446 00109$:
+                                   1447 ;	E:\Works\NSHET\sys.c:144: sysTickCount += 1;
+      000262 90r00r00         [24] 1448 	mov	dptr,#_sysTickCount
+      000265 E0               [24] 1449 	movx	a,@dptr
+      000266 FC               [12] 1450 	mov	r4,a
+      000267 A3               [24] 1451 	inc	dptr
+      000268 E0               [24] 1452 	movx	a,@dptr
+      000269 FD               [12] 1453 	mov	r5,a
+      00026A A3               [24] 1454 	inc	dptr
+      00026B E0               [24] 1455 	movx	a,@dptr
+      00026C FE               [12] 1456 	mov	r6,a
+      00026D A3               [24] 1457 	inc	dptr
+      00026E E0               [24] 1458 	movx	a,@dptr
+      00026F FF               [12] 1459 	mov	r7,a
+      000270 90r00r00         [24] 1460 	mov	dptr,#_sysTickCount
+      000273 74 01            [12] 1461 	mov	a,#0x01
+      000275 2C               [12] 1462 	add	a,r4
+      000276 F0               [24] 1463 	movx	@dptr,a
+      000277 E4               [12] 1464 	clr	a
+      000278 3D               [12] 1465 	addc	a,r5
+      000279 A3               [24] 1466 	inc	dptr
+      00027A F0               [24] 1467 	movx	@dptr,a
+      00027B E4               [12] 1468 	clr	a
+      00027C 3E               [12] 1469 	addc	a,r6
+      00027D A3               [24] 1470 	inc	dptr
+      00027E F0               [24] 1471 	movx	@dptr,a
+      00027F E4               [12] 1472 	clr	a
+      000280 3F               [12] 1473 	addc	a,r7
+      000281 A3               [24] 1474 	inc	dptr
+      000282 F0               [24] 1475 	movx	@dptr,a
+      000283                       1476 00103$:
+                                   1477 ;	E:\Works\NSHET\sys.c:146: }
+      000283 D0 D0            [24] 1478 	pop	psw
+      000285 D0 83            [24] 1479 	pop	dph
+      000287 D0 82            [24] 1480 	pop	dpl
+      000289 D0 E0            [24] 1481 	pop	acc
+      00028B 32               [24] 1482 	reti
+                                   1483 ;	eliminated unneeded push/pop b
+                                   1484 ;------------------------------------------------------------
+                                   1485 ;Allocation info for local variables in function 'sysGetTickCount'
+                                   1486 ;------------------------------------------------------------
+                                   1487 ;	E:\Works\NSHET\sys.c:148: uint32_t sysGetTickCount() {
+                                   1488 ;	-----------------------------------------
+                                   1489 ;	 function sysGetTickCount
+                                   1490 ;	-----------------------------------------
+      00028C                       1491 _sysGetTickCount:
+                           000007  1492 	ar7 = 0x07
+                           000006  1493 	ar6 = 0x06
+                           000005  1494 	ar5 = 0x05
+                           000004  1495 	ar4 = 0x04
+                           000003  1496 	ar3 = 0x03
+                           000002  1497 	ar2 = 0x02
+                           000001  1498 	ar1 = 0x01
+                           000000  1499 	ar0 = 0x00
+                                   1500 ;	E:\Works\NSHET\sys.c:149: return sysTickCount;
+      00028C 90r00r00         [24] 1501 	mov	dptr,#_sysTickCount
+      00028F E0               [24] 1502 	movx	a,@dptr
+      000290 FC               [12] 1503 	mov	r4,a
+      000291 A3               [24] 1504 	inc	dptr
+      000292 E0               [24] 1505 	movx	a,@dptr
+      000293 FD               [12] 1506 	mov	r5,a
+      000294 A3               [24] 1507 	inc	dptr
+      000295 E0               [24] 1508 	movx	a,@dptr
+      000296 FE               [12] 1509 	mov	r6,a
+      000297 A3               [24] 1510 	inc	dptr
+      000298 E0               [24] 1511 	movx	a,@dptr
+      000299 8C 82            [24] 1512 	mov	dpl,r4
+      00029B 8D 83            [24] 1513 	mov	dph,r5
+      00029D 8E F0            [24] 1514 	mov	b,r6
+                                   1515 ;	E:\Works\NSHET\sys.c:150: }
+      00029F 22               [24] 1516 	ret
+                                   1517 ;------------------------------------------------------------
+                                   1518 ;Allocation info for local variables in function 'uart0Config'
+                                   1519 ;------------------------------------------------------------
+                                   1520 ;baud                      Allocated with name '_uart0Config_baud_65536_37'
+                                   1521 ;------------------------------------------------------------
+                                   1522 ;	E:\Works\NSHET\sys.c:154: void uart0Config(uint32_t baud) {
+                                   1523 ;	-----------------------------------------
+                                   1524 ;	 function uart0Config
+                                   1525 ;	-----------------------------------------
+      0002A0                       1526 _uart0Config:
+      0002A0 AF 82            [24] 1527 	mov	r7,dpl
+      0002A2 AE 83            [24] 1528 	mov	r6,dph
+      0002A4 AD F0            [24] 1529 	mov	r5,b
+      0002A6 FC               [12] 1530 	mov	r4,a
+      0002A7 90r00r1A         [24] 1531 	mov	dptr,#_uart0Config_baud_65536_37
+      0002AA EF               [12] 1532 	mov	a,r7
+      0002AB F0               [24] 1533 	movx	@dptr,a
+      0002AC EE               [12] 1534 	mov	a,r6
+      0002AD A3               [24] 1535 	inc	dptr
+      0002AE F0               [24] 1536 	movx	@dptr,a
+      0002AF ED               [12] 1537 	mov	a,r5
+      0002B0 A3               [24] 1538 	inc	dptr
+      0002B1 F0               [24] 1539 	movx	@dptr,a
+      0002B2 EC               [12] 1540 	mov	a,r4
+      0002B3 A3               [24] 1541 	inc	dptr
+      0002B4 F0               [24] 1542 	movx	@dptr,a
+                                   1543 ;	E:\Works\NSHET\sys.c:155: SM0 = 0; SM1 = 1; SM2 = 0;
+                                   1544 ;	assignBit
+      0002B5 C2 9F            [12] 1545 	clr	_SM0
+                                   1546 ;	assignBit
+      0002B7 D2 9E            [12] 1547 	setb	_SM1
+                                   1548 ;	assignBit
+      0002B9 C2 9D            [12] 1549 	clr	_SM2
+                                   1550 ;	E:\Works\NSHET\sys.c:156: TCLK = 0; RCLK = 0;
+                                   1551 ;	assignBit
+      0002BB C2 CC            [12] 1552 	clr	_TCLK
+                                   1553 ;	assignBit
+      0002BD C2 CD            [12] 1554 	clr	_RCLK
+                                   1555 ;	E:\Works\NSHET\sys.c:157: PCON |= SMOD;
+      0002BF 43 87 80         [24] 1556 	orl	_PCON,#0x80
+                                   1557 ;	E:\Works\NSHET\sys.c:158: x = 10 * FREQ_SYS / baud / 16;
+      0002C2 90r00r1A         [24] 1558 	mov	dptr,#_uart0Config_baud_65536_37
+      0002C5 E0               [24] 1559 	movx	a,@dptr
+      0002C6 FC               [12] 1560 	mov	r4,a
+      0002C7 A3               [24] 1561 	inc	dptr
+      0002C8 E0               [24] 1562 	movx	a,@dptr
+      0002C9 FD               [12] 1563 	mov	r5,a
+      0002CA A3               [24] 1564 	inc	dptr
+      0002CB E0               [24] 1565 	movx	a,@dptr
+      0002CC FE               [12] 1566 	mov	r6,a
+      0002CD A3               [24] 1567 	inc	dptr
+      0002CE E0               [24] 1568 	movx	a,@dptr
+      0002CF FF               [12] 1569 	mov	r7,a
+      0002D0 90r00r00         [24] 1570 	mov	dptr,#__divulong_PARM_2
+      0002D3 EC               [12] 1571 	mov	a,r4
+      0002D4 F0               [24] 1572 	movx	@dptr,a
+      0002D5 ED               [12] 1573 	mov	a,r5
+      0002D6 A3               [24] 1574 	inc	dptr
+      0002D7 F0               [24] 1575 	movx	@dptr,a
+      0002D8 EE               [12] 1576 	mov	a,r6
+      0002D9 A3               [24] 1577 	inc	dptr
+      0002DA F0               [24] 1578 	movx	@dptr,a
+      0002DB EF               [12] 1579 	mov	a,r7
+      0002DC A3               [24] 1580 	inc	dptr
+      0002DD F0               [24] 1581 	movx	@dptr,a
+      0002DE 90 38 00         [24] 1582 	mov	dptr,#0x3800
+      0002E1 75 F0 9C         [24] 1583 	mov	b,#0x9c
+      0002E4 74 1C            [12] 1584 	mov	a,#0x1c
+      0002E6 12r00r00         [24] 1585 	lcall	__divulong
+      0002E9 AC 82            [24] 1586 	mov	r4,dpl
+      0002EB AD 83            [24] 1587 	mov	r5,dph
+      0002ED AE F0            [24] 1588 	mov	r6,b
+      0002EF FF               [12] 1589 	mov	r7,a
+      0002F0 ED               [12] 1590 	mov	a,r5
+      0002F1 C4               [12] 1591 	swap	a
+      0002F2 CC               [12] 1592 	xch	a,r4
+      0002F3 C4               [12] 1593 	swap	a
+      0002F4 54 0F            [12] 1594 	anl	a,#0x0f
+      0002F6 6C               [12] 1595 	xrl	a,r4
+      0002F7 CC               [12] 1596 	xch	a,r4
+      0002F8 54 0F            [12] 1597 	anl	a,#0x0f
+      0002FA CC               [12] 1598 	xch	a,r4
+      0002FB 6C               [12] 1599 	xrl	a,r4
+      0002FC CC               [12] 1600 	xch	a,r4
+      0002FD FD               [12] 1601 	mov	r5,a
+      0002FE EE               [12] 1602 	mov	a,r6
+      0002FF C4               [12] 1603 	swap	a
+      000300 54 F0            [12] 1604 	anl	a,#0xf0
+      000302 4D               [12] 1605 	orl	a,r5
+      000303 FD               [12] 1606 	mov	r5,a
+      000304 EF               [12] 1607 	mov	a,r7
+      000305 C4               [12] 1608 	swap	a
+      000306 CE               [12] 1609 	xch	a,r6
+      000307 C4               [12] 1610 	swap	a
+      000308 54 0F            [12] 1611 	anl	a,#0x0f
+      00030A 6E               [12] 1612 	xrl	a,r6
+      00030B CE               [12] 1613 	xch	a,r6
+      00030C 54 0F            [12] 1614 	anl	a,#0x0f
+      00030E CE               [12] 1615 	xch	a,r6
+      00030F 6E               [12] 1616 	xrl	a,r6
+      000310 CE               [12] 1617 	xch	a,r6
+      000311 FF               [12] 1618 	mov	r7,a
+                                   1619 ;	E:\Works\NSHET\sys.c:160: x2 = x % 10;
+      000312 90r00r00         [24] 1620 	mov	dptr,#__modulong_PARM_2
+      000315 74 0A            [12] 1621 	mov	a,#0x0a
+      000317 F0               [24] 1622 	movx	@dptr,a
+      000318 E4               [12] 1623 	clr	a
+      000319 A3               [24] 1624 	inc	dptr
+      00031A F0               [24] 1625 	movx	@dptr,a
+      00031B A3               [24] 1626 	inc	dptr
+      00031C F0               [24] 1627 	movx	@dptr,a
+      00031D A3               [24] 1628 	inc	dptr
+      00031E F0               [24] 1629 	movx	@dptr,a
+      00031F 8C 82            [24] 1630 	mov	dpl,r4
+      000321 8D 83            [24] 1631 	mov	dph,r5
+      000323 8E F0            [24] 1632 	mov	b,r6
+      000325 EF               [12] 1633 	mov	a,r7
+      000326 C0 07            [24] 1634 	push	ar7
+      000328 C0 06            [24] 1635 	push	ar6
+      00032A C0 05            [24] 1636 	push	ar5
+      00032C C0 04            [24] 1637 	push	ar4
+      00032E 12r00r00         [24] 1638 	lcall	__modulong
+      000331 A8 82            [24] 1639 	mov	r0,dpl
+      000333 D0 04            [24] 1640 	pop	ar4
+      000335 D0 05            [24] 1641 	pop	ar5
+      000337 D0 06            [24] 1642 	pop	ar6
+      000339 D0 07            [24] 1643 	pop	ar7
+      00033B 90r00r18         [24] 1644 	mov	dptr,#_x2
+      00033E E8               [12] 1645 	mov	a,r0
+      00033F F0               [24] 1646 	movx	@dptr,a
+                                   1647 ;	E:\Works\NSHET\sys.c:161: x /= 10;
+      000340 90r00r00         [24] 1648 	mov	dptr,#__divulong_PARM_2
+      000343 74 0A            [12] 1649 	mov	a,#0x0a
+      000345 F0               [24] 1650 	movx	@dptr,a
+      000346 E4               [12] 1651 	clr	a
+      000347 A3               [24] 1652 	inc	dptr
+      000348 F0               [24] 1653 	movx	@dptr,a
+      000349 A3               [24] 1654 	inc	dptr
+      00034A F0               [24] 1655 	movx	@dptr,a
+      00034B A3               [24] 1656 	inc	dptr
+      00034C F0               [24] 1657 	movx	@dptr,a
+      00034D 8C 82            [24] 1658 	mov	dpl,r4
+      00034F 8D 83            [24] 1659 	mov	dph,r5
+      000351 8E F0            [24] 1660 	mov	b,r6
+      000353 EF               [12] 1661 	mov	a,r7
+      000354 C0 00            [24] 1662 	push	ar0
+      000356 12r00r00         [24] 1663 	lcall	__divulong
+      000359 AC 82            [24] 1664 	mov	r4,dpl
+      00035B AD 83            [24] 1665 	mov	r5,dph
+      00035D AE F0            [24] 1666 	mov	r6,b
+      00035F FF               [12] 1667 	mov	r7,a
+      000360 D0 00            [24] 1668 	pop	ar0
+      000362 90r00r14         [24] 1669 	mov	dptr,#_x
+      000365 EC               [12] 1670 	mov	a,r4
+      000366 F0               [24] 1671 	movx	@dptr,a
+      000367 ED               [12] 1672 	mov	a,r5
+      000368 A3               [24] 1673 	inc	dptr
+      000369 F0               [24] 1674 	movx	@dptr,a
+      00036A EE               [12] 1675 	mov	a,r6
+      00036B A3               [24] 1676 	inc	dptr
+      00036C F0               [24] 1677 	movx	@dptr,a
+      00036D EF               [12] 1678 	mov	a,r7
+      00036E A3               [24] 1679 	inc	dptr
+      00036F F0               [24] 1680 	movx	@dptr,a
+                                   1681 ;	E:\Works\NSHET\sys.c:162: if (x2 >= 5) x++;
+      000370 B8 05 00         [24] 1682 	cjne	r0,#0x05,00109$
+      000373                       1683 00109$:
+      000373 40 13            [24] 1684 	jc	00102$
+      000375 90r00r14         [24] 1685 	mov	dptr,#_x
+      000378 74 01            [12] 1686 	mov	a,#0x01
+      00037A 2C               [12] 1687 	add	a,r4
+      00037B F0               [24] 1688 	movx	@dptr,a
+      00037C E4               [12] 1689 	clr	a
+      00037D 3D               [12] 1690 	addc	a,r5
+      00037E A3               [24] 1691 	inc	dptr
+      00037F F0               [24] 1692 	movx	@dptr,a
+      000380 E4               [12] 1693 	clr	a
+      000381 3E               [12] 1694 	addc	a,r6
+      000382 A3               [24] 1695 	inc	dptr
+      000383 F0               [24] 1696 	movx	@dptr,a
+      000384 E4               [12] 1697 	clr	a
+      000385 3F               [12] 1698 	addc	a,r7
+      000386 A3               [24] 1699 	inc	dptr
+      000387 F0               [24] 1700 	movx	@dptr,a
+      000388                       1701 00102$:
+                                   1702 ;	E:\Works\NSHET\sys.c:164: TMOD = TMOD & ~bT1_GATE & ~bT1_CT & ~MASK_T1_MOD | bT1_M1;
+      000388 74 0F            [12] 1703 	mov	a,#0x0f
+      00038A 55 89            [12] 1704 	anl	a,_TMOD
+      00038C 44 20            [12] 1705 	orl	a,#0x20
+      00038E F5 89            [12] 1706 	mov	_TMOD,a
+                                   1707 ;	E:\Works\NSHET\sys.c:165: T2MOD |= (bTMR_CLK | bT1_CLK);
+      000390 43 C9 A0         [24] 1708 	orl	_T2MOD,#0xa0
+                                   1709 ;	E:\Works\NSHET\sys.c:166: TH1 = 0 - x;
+      000393 90r00r14         [24] 1710 	mov	dptr,#_x
+      000396 E0               [24] 1711 	movx	a,@dptr
+      000397 FC               [12] 1712 	mov	r4,a
+      000398 A3               [24] 1713 	inc	dptr
+      000399 E0               [24] 1714 	movx	a,@dptr
+      00039A A3               [24] 1715 	inc	dptr
+      00039B E0               [24] 1716 	movx	a,@dptr
+      00039C A3               [24] 1717 	inc	dptr
+      00039D E0               [24] 1718 	movx	a,@dptr
+      00039E C3               [12] 1719 	clr	c
+      00039F E4               [12] 1720 	clr	a
+      0003A0 9C               [12] 1721 	subb	a,r4
+      0003A1 F5 8D            [12] 1722 	mov	_TH1,a
+                                   1723 ;	E:\Works\NSHET\sys.c:167: TR1 = 1;
+                                   1724 ;	assignBit
+      0003A3 D2 8E            [12] 1725 	setb	_TR1
+                                   1726 ;	E:\Works\NSHET\sys.c:168: TI = 1;
+                                   1727 ;	assignBit
+      0003A5 D2 99            [12] 1728 	setb	_TI
+                                   1729 ;	E:\Works\NSHET\sys.c:169: REN = 1;
+                                   1730 ;	assignBit
+      0003A7 D2 9C            [12] 1731 	setb	_REN
+                                   1732 ;	E:\Works\NSHET\sys.c:170: ES = 1;
+                                   1733 ;	assignBit
+      0003A9 D2 AC            [12] 1734 	setb	_ES
+                                   1735 ;	E:\Works\NSHET\sys.c:171: }
+      0003AB 22               [24] 1736 	ret
+                                   1737 ;------------------------------------------------------------
+                                   1738 ;Allocation info for local variables in function '__uart0_interrupt'
+                                   1739 ;------------------------------------------------------------
+                                   1740 ;	E:\Works\NSHET\sys.c:182: void __uart0_interrupt() __interrupt (INT_NO_UART0) __using (1) {
+                                   1741 ;	-----------------------------------------
+                                   1742 ;	 function __uart0_interrupt
+                                   1743 ;	-----------------------------------------
+      0003AC                       1744 ___uart0_interrupt:
+                           00000F  1745 	ar7 = 0x0f
+                           00000E  1746 	ar6 = 0x0e
+                           00000D  1747 	ar5 = 0x0d
+                           00000C  1748 	ar4 = 0x0c
+                           00000B  1749 	ar3 = 0x0b
+                           00000A  1750 	ar2 = 0x0a
+                           000009  1751 	ar1 = 0x09
+                           000008  1752 	ar0 = 0x08
+      0003AC C0 E0            [24] 1753 	push	acc
+      0003AE C0 F0            [24] 1754 	push	b
+      0003B0 C0 82            [24] 1755 	push	dpl
+      0003B2 C0 83            [24] 1756 	push	dph
+      0003B4 C0 D0            [24] 1757 	push	psw
+      0003B6 75 D0 08         [24] 1758 	mov	psw,#0x08
+                                   1759 ;	E:\Works\NSHET\sys.c:183: if (TI) {
+                                   1760 ;	E:\Works\NSHET\sys.c:184: TI = 0;
+                                   1761 ;	assignBit
+      0003B9 10 99 02         [24] 1762 	jbc	_TI,00134$
+      0003BC 80 02            [24] 1763 	sjmp	00102$
+      0003BE                       1764 00134$:
+                                   1765 ;	E:\Works\NSHET\sys.c:185: busy = 0;
+                                   1766 ;	assignBit
+      0003BE C2*00            [12] 1767 	clr	_busy
+      0003C0                       1768 00102$:
+                                   1769 ;	E:\Works\NSHET\sys.c:187: if (RI) {
+                                   1770 ;	E:\Works\NSHET\sys.c:188: RI = 0;
+                                   1771 ;	assignBit
+      0003C0 10 98 02         [24] 1772 	jbc	_RI,00135$
+      0003C3 80 6F            [24] 1773 	sjmp	00112$
+      0003C5                       1774 00135$:
+                                   1775 ;	E:\Works\NSHET\sys.c:189: if (block_recv) {
+      0003C5 30*01 4B         [24] 1776 	jnb	_block_recv,00108$
+                                   1777 ;	E:\Works\NSHET\sys.c:190: block_recv_ptr[block_recv_pos] = SBUF;
+      0003C8 90r00r25         [24] 1778 	mov	dptr,#_block_recv_ptr
+      0003CB E0               [24] 1779 	movx	a,@dptr
+      0003CC FD               [12] 1780 	mov	r5,a
+      0003CD A3               [24] 1781 	inc	dptr
+      0003CE E0               [24] 1782 	movx	a,@dptr
+      0003CF FE               [12] 1783 	mov	r6,a
+      0003D0 A3               [24] 1784 	inc	dptr
+      0003D1 E0               [24] 1785 	movx	a,@dptr
+      0003D2 FF               [12] 1786 	mov	r7,a
+      0003D3 90r00r28         [24] 1787 	mov	dptr,#_block_recv_pos
+      0003D6 E0               [24] 1788 	movx	a,@dptr
+      0003D7 FB               [12] 1789 	mov	r3,a
+      0003D8 A3               [24] 1790 	inc	dptr
+      0003D9 E0               [24] 1791 	movx	a,@dptr
+      0003DA FC               [12] 1792 	mov	r4,a
+      0003DB EB               [12] 1793 	mov	a,r3
+      0003DC 2D               [12] 1794 	add	a,r5
+      0003DD FD               [12] 1795 	mov	r5,a
+      0003DE EC               [12] 1796 	mov	a,r4
+      0003DF 3E               [12] 1797 	addc	a,r6
+      0003E0 FE               [12] 1798 	mov	r6,a
+      0003E1 8D 82            [24] 1799 	mov	dpl,r5
+      0003E3 8E 83            [24] 1800 	mov	dph,r6
+      0003E5 8F F0            [24] 1801 	mov	b,r7
+      0003E7 E5 99            [12] 1802 	mov	a,_SBUF
+      0003E9 12r00r00         [24] 1803 	lcall	__gptrput
+                                   1804 ;	E:\Works\NSHET\sys.c:191: block_recv_pos++;
+      0003EC 90r00r28         [24] 1805 	mov	dptr,#_block_recv_pos
+      0003EF E0               [24] 1806 	movx	a,@dptr
+      0003F0 24 01            [12] 1807 	add	a,#0x01
+      0003F2 F0               [24] 1808 	movx	@dptr,a
+      0003F3 A3               [24] 1809 	inc	dptr
+      0003F4 E0               [24] 1810 	movx	a,@dptr
+      0003F5 34 00            [12] 1811 	addc	a,#0x00
+      0003F7 F0               [24] 1812 	movx	@dptr,a
+                                   1813 ;	E:\Works\NSHET\sys.c:192: if (block_recv_pos >= block_recv_siz)
+      0003F8 90r00r28         [24] 1814 	mov	dptr,#_block_recv_pos
+      0003FB E0               [24] 1815 	movx	a,@dptr
+      0003FC FE               [12] 1816 	mov	r6,a
+      0003FD A3               [24] 1817 	inc	dptr
+      0003FE E0               [24] 1818 	movx	a,@dptr
+      0003FF FF               [12] 1819 	mov	r7,a
+      000400 90r00r2A         [24] 1820 	mov	dptr,#_block_recv_siz
+      000403 E0               [24] 1821 	movx	a,@dptr
+      000404 FC               [12] 1822 	mov	r4,a
+      000405 A3               [24] 1823 	inc	dptr
+      000406 E0               [24] 1824 	movx	a,@dptr
+      000407 FD               [12] 1825 	mov	r5,a
+      000408 C3               [12] 1826 	clr	c
+      000409 EE               [12] 1827 	mov	a,r6
+      00040A 9C               [12] 1828 	subb	a,r4
+      00040B EF               [12] 1829 	mov	a,r7
+      00040C 9D               [12] 1830 	subb	a,r5
+      00040D 40 25            [24] 1831 	jc	00112$
+                                   1832 ;	E:\Works\NSHET\sys.c:193: block_recv = 0;
+                                   1833 ;	assignBit
+      00040F C2*01            [12] 1834 	clr	_block_recv
+      000411 80 21            [24] 1835 	sjmp	00112$
+      000413                       1836 00108$:
+                                   1837 ;	E:\Works\NSHET\sys.c:194: } else if (recPtr0 < UART_BUF_SIZE) {
+      000413 90r00r24         [24] 1838 	mov	dptr,#_recPtr0
+      000416 E0               [24] 1839 	movx	a,@dptr
+      000417 FF               [12] 1840 	mov	r7,a
+      000418 BF 20 00         [24] 1841 	cjne	r7,#0x20,00138$
+      00041B                       1842 00138$:
+      00041B 50 17            [24] 1843 	jnc	00112$
+                                   1844 ;	E:\Works\NSHET\sys.c:195: recBuf0[recPtr0] = SBUF;
+      00041D 90r00r24         [24] 1845 	mov	dptr,#_recPtr0
+      000420 E0               [24] 1846 	movx	a,@dptr
+      000421 24r04            [12] 1847 	add	a,#_recBuf0
+      000423 F5 82            [12] 1848 	mov	dpl,a
+      000425 E4               [12] 1849 	clr	a
+      000426 34s00            [12] 1850 	addc	a,#(_recBuf0 >> 8)
+      000428 F5 83            [12] 1851 	mov	dph,a
+      00042A E5 99            [12] 1852 	mov	a,_SBUF
+      00042C F0               [24] 1853 	movx	@dptr,a
+                                   1854 ;	E:\Works\NSHET\sys.c:196: recPtr0 += 1;
+      00042D 90r00r24         [24] 1855 	mov	dptr,#_recPtr0
+      000430 E0               [24] 1856 	movx	a,@dptr
+      000431 FF               [12] 1857 	mov	r7,a
+      000432 04               [12] 1858 	inc	a
+      000433 F0               [24] 1859 	movx	@dptr,a
+      000434                       1860 00112$:
+                                   1861 ;	E:\Works\NSHET\sys.c:199: }
+      000434 D0 D0            [24] 1862 	pop	psw
+      000436 D0 83            [24] 1863 	pop	dph
+      000438 D0 82            [24] 1864 	pop	dpl
+      00043A D0 F0            [24] 1865 	pop	b
+      00043C D0 E0            [24] 1866 	pop	acc
+      00043E 32               [24] 1867 	reti
+                                   1868 ;------------------------------------------------------------
+                                   1869 ;Allocation info for local variables in function 'uart0Send'
+                                   1870 ;------------------------------------------------------------
+                                   1871 ;data                      Allocated with name '_uart0Send_data_65536_44'
+                                   1872 ;------------------------------------------------------------
+                                   1873 ;	E:\Works\NSHET\sys.c:201: void uart0Send(uint8_t data) {
+                                   1874 ;	-----------------------------------------
+                                   1875 ;	 function uart0Send
+                                   1876 ;	-----------------------------------------
+      00043F                       1877 _uart0Send:
+                           000007  1878 	ar7 = 0x07
+                           000006  1879 	ar6 = 0x06
+                           000005  1880 	ar5 = 0x05
+                           000004  1881 	ar4 = 0x04
+                           000003  1882 	ar3 = 0x03
+                           000002  1883 	ar2 = 0x02
+                           000001  1884 	ar1 = 0x01
+                           000000  1885 	ar0 = 0x00
+      00043F E5 82            [12] 1886 	mov	a,dpl
+      000441 90r00r1E         [24] 1887 	mov	dptr,#_uart0Send_data_65536_44
+      000444 F0               [24] 1888 	movx	@dptr,a
+                                   1889 ;	E:\Works\NSHET\sys.c:202: while (busy);
+      000445                       1890 00101$:
+      000445 20*00 FD         [24] 1891 	jb	_busy,00101$
+                                   1892 ;	E:\Works\NSHET\sys.c:203: busy = 1;
+                                   1893 ;	assignBit
+      000448 D2*00            [12] 1894 	setb	_busy
+                                   1895 ;	E:\Works\NSHET\sys.c:204: SBUF = data;
+      00044A 90r00r1E         [24] 1896 	mov	dptr,#_uart0Send_data_65536_44
+      00044D E0               [24] 1897 	movx	a,@dptr
+      00044E F5 99            [12] 1898 	mov	_SBUF,a
+                                   1899 ;	E:\Works\NSHET\sys.c:205: }
+      000450 22               [24] 1900 	ret
+                                   1901 ;------------------------------------------------------------
+                                   1902 ;Allocation info for local variables in function 'uart0Write'
+                                   1903 ;------------------------------------------------------------
+                                   1904 ;s                         Allocated with name '_uart0Write_s_65536_46'
+                                   1905 ;------------------------------------------------------------
+                                   1906 ;	E:\Works\NSHET\sys.c:207: void uart0Write(char* s) {
+                                   1907 ;	-----------------------------------------
+                                   1908 ;	 function uart0Write
+                                   1909 ;	-----------------------------------------
+      000451                       1910 _uart0Write:
+      000451 AF F0            [24] 1911 	mov	r7,b
+      000453 AE 83            [24] 1912 	mov	r6,dph
+      000455 E5 82            [12] 1913 	mov	a,dpl
+      000457 90r00r1F         [24] 1914 	mov	dptr,#_uart0Write_s_65536_46
+      00045A F0               [24] 1915 	movx	@dptr,a
+      00045B EE               [12] 1916 	mov	a,r6
+      00045C A3               [24] 1917 	inc	dptr
+      00045D F0               [24] 1918 	movx	@dptr,a
+      00045E EF               [12] 1919 	mov	a,r7
+      00045F A3               [24] 1920 	inc	dptr
+      000460 F0               [24] 1921 	movx	@dptr,a
+                                   1922 ;	E:\Works\NSHET\sys.c:208: while (*s) {
+      000461 90r00r1F         [24] 1923 	mov	dptr,#_uart0Write_s_65536_46
+      000464 E0               [24] 1924 	movx	a,@dptr
+      000465 FD               [12] 1925 	mov	r5,a
+      000466 A3               [24] 1926 	inc	dptr
+      000467 E0               [24] 1927 	movx	a,@dptr
+      000468 FE               [12] 1928 	mov	r6,a
+      000469 A3               [24] 1929 	inc	dptr
+      00046A E0               [24] 1930 	movx	a,@dptr
+      00046B FF               [12] 1931 	mov	r7,a
+      00046C                       1932 00101$:
+      00046C 8D 82            [24] 1933 	mov	dpl,r5
+      00046E 8E 83            [24] 1934 	mov	dph,r6
+      000470 8F F0            [24] 1935 	mov	b,r7
+      000472 12r00r00         [24] 1936 	lcall	__gptrget
+      000475 FC               [12] 1937 	mov	r4,a
+      000476 60 23            [24] 1938 	jz	00108$
+                                   1939 ;	E:\Works\NSHET\sys.c:209: uart0Send(*s++);
+      000478 0D               [12] 1940 	inc	r5
+      000479 BD 00 01         [24] 1941 	cjne	r5,#0x00,00116$
+      00047C 0E               [12] 1942 	inc	r6
+      00047D                       1943 00116$:
+      00047D 90r00r1F         [24] 1944 	mov	dptr,#_uart0Write_s_65536_46
+      000480 ED               [12] 1945 	mov	a,r5
+      000481 F0               [24] 1946 	movx	@dptr,a
+      000482 EE               [12] 1947 	mov	a,r6
+      000483 A3               [24] 1948 	inc	dptr
+      000484 F0               [24] 1949 	movx	@dptr,a
+      000485 EF               [12] 1950 	mov	a,r7
+      000486 A3               [24] 1951 	inc	dptr
+      000487 F0               [24] 1952 	movx	@dptr,a
+      000488 8C 82            [24] 1953 	mov	dpl,r4
+      00048A C0 07            [24] 1954 	push	ar7
+      00048C C0 06            [24] 1955 	push	ar6
+      00048E C0 05            [24] 1956 	push	ar5
+      000490 12r04r3F         [24] 1957 	lcall	_uart0Send
+      000493 D0 05            [24] 1958 	pop	ar5
+      000495 D0 06            [24] 1959 	pop	ar6
+      000497 D0 07            [24] 1960 	pop	ar7
+      000499 80 D1            [24] 1961 	sjmp	00101$
+      00049B                       1962 00108$:
+      00049B 90r00r1F         [24] 1963 	mov	dptr,#_uart0Write_s_65536_46
+      00049E ED               [12] 1964 	mov	a,r5
+      00049F F0               [24] 1965 	movx	@dptr,a
+      0004A0 EE               [12] 1966 	mov	a,r6
+      0004A1 A3               [24] 1967 	inc	dptr
+      0004A2 F0               [24] 1968 	movx	@dptr,a
+      0004A3 EF               [12] 1969 	mov	a,r7
+      0004A4 A3               [24] 1970 	inc	dptr
+      0004A5 F0               [24] 1971 	movx	@dptr,a
+                                   1972 ;	E:\Works\NSHET\sys.c:211: }
+      0004A6 22               [24] 1973 	ret
+                                   1974 ;------------------------------------------------------------
+                                   1975 ;Allocation info for local variables in function 'uart0Get'
+                                   1976 ;------------------------------------------------------------
+                                   1977 ;	E:\Works\NSHET\sys.c:213: uint8_t uart0Get() {
+                                   1978 ;	-----------------------------------------
+                                   1979 ;	 function uart0Get
+                                   1980 ;	-----------------------------------------
+      0004A7                       1981 _uart0Get:
+                                   1982 ;	E:\Works\NSHET\sys.c:214: if (recPtr0 > 0) {
+      0004A7 90r00r24         [24] 1983 	mov	dptr,#_recPtr0
+      0004AA E0               [24] 1984 	movx	a,@dptr
+      0004AB 60 60            [24] 1985 	jz	00104$
+                                   1986 ;	E:\Works\NSHET\sys.c:215: sbuf = recBuf0[0];
+      0004AD 90r00r04         [24] 1987 	mov	dptr,#_recBuf0
+      0004B0 E0               [24] 1988 	movx	a,@dptr
+      0004B1 90r00r19         [24] 1989 	mov	dptr,#_sbuf
+      0004B4 F0               [24] 1990 	movx	@dptr,a
+                                   1991 ;	E:\Works\NSHET\sys.c:216: recPtr0 -= 1;
+      0004B5 90r00r24         [24] 1992 	mov	dptr,#_recPtr0
+      0004B8 E0               [24] 1993 	movx	a,@dptr
+      0004B9 14               [12] 1994 	dec	a
+      0004BA F0               [24] 1995 	movx	@dptr,a
+                                   1996 ;	E:\Works\NSHET\sys.c:217: if (recPtr0 > 0)
+      0004BB E0               [24] 1997 	movx	a,@dptr
+      0004BC 60 25            [24] 1998 	jz	00102$
+                                   1999 ;	E:\Works\NSHET\sys.c:218: mmov(recBuf0, recBuf0 + 1, recPtr0);
+      0004BE 90r00r24         [24] 2000 	mov	dptr,#_recPtr0
+      0004C1 E0               [24] 2001 	movx	a,@dptr
+      0004C2 FF               [12] 2002 	mov	r7,a
+      0004C3 7E 00            [12] 2003 	mov	r6,#0x00
+      0004C5 90r00r08         [24] 2004 	mov	dptr,#_mmov_PARM_2
+      0004C8 74r05            [12] 2005 	mov	a,#(_recBuf0 + 0x0001)
+      0004CA F0               [24] 2006 	movx	@dptr,a
+      0004CB 74s00            [12] 2007 	mov	a,#((_recBuf0 + 0x0001) >> 8)
+      0004CD A3               [24] 2008 	inc	dptr
+      0004CE F0               [24] 2009 	movx	@dptr,a
+      0004CF E4               [12] 2010 	clr	a
+      0004D0 A3               [24] 2011 	inc	dptr
+      0004D1 F0               [24] 2012 	movx	@dptr,a
+      0004D2 90r00r0B         [24] 2013 	mov	dptr,#_mmov_PARM_3
+      0004D5 EF               [12] 2014 	mov	a,r7
+      0004D6 F0               [24] 2015 	movx	@dptr,a
+      0004D7 EE               [12] 2016 	mov	a,r6
+      0004D8 A3               [24] 2017 	inc	dptr
+      0004D9 F0               [24] 2018 	movx	@dptr,a
+      0004DA 90r00r04         [24] 2019 	mov	dptr,#_recBuf0
+      0004DD 75 F0 00         [24] 2020 	mov	b,#0x00
+      0004E0 12r00r67         [24] 2021 	lcall	_mmov
+      0004E3                       2022 00102$:
+                                   2023 ;	E:\Works\NSHET\sys.c:219: mset(recBuf0 + recPtr0, 0, 1);
+      0004E3 90r00r24         [24] 2024 	mov	dptr,#_recPtr0
+      0004E6 E0               [24] 2025 	movx	a,@dptr
+      0004E7 24r04            [12] 2026 	add	a,#_recBuf0
+      0004E9 FF               [12] 2027 	mov	r7,a
+      0004EA E4               [12] 2028 	clr	a
+      0004EB 34s00            [12] 2029 	addc	a,#(_recBuf0 >> 8)
+      0004ED FE               [12] 2030 	mov	r6,a
+      0004EE 7D 00            [12] 2031 	mov	r5,#0x00
+      0004F0 90r00r02         [24] 2032 	mov	dptr,#_mset_PARM_2
+      0004F3 E4               [12] 2033 	clr	a
+      0004F4 F0               [24] 2034 	movx	@dptr,a
+      0004F5 90r00r03         [24] 2035 	mov	dptr,#_mset_PARM_3
+      0004F8 04               [12] 2036 	inc	a
+      0004F9 F0               [24] 2037 	movx	@dptr,a
+      0004FA E4               [12] 2038 	clr	a
+      0004FB A3               [24] 2039 	inc	dptr
+      0004FC F0               [24] 2040 	movx	@dptr,a
+      0004FD 8F 82            [24] 2041 	mov	dpl,r7
+      0004FF 8E 83            [24] 2042 	mov	dph,r6
+      000501 8D F0            [24] 2043 	mov	b,r5
+      000503 12r00r00         [24] 2044 	lcall	_mset
+                                   2045 ;	E:\Works\NSHET\sys.c:220: return sbuf;
+      000506 90r00r19         [24] 2046 	mov	dptr,#_sbuf
+      000509 E0               [24] 2047 	movx	a,@dptr
+      00050A F5 82            [12] 2048 	mov	dpl,a
+      00050C 22               [24] 2049 	ret
+      00050D                       2050 00104$:
+                                   2051 ;	E:\Works\NSHET\sys.c:222: return 0;
+      00050D 75 82 00         [24] 2052 	mov	dpl,#0x00
+                                   2053 ;	E:\Works\NSHET\sys.c:223: }
+      000510 22               [24] 2054 	ret
+                                   2055 ;------------------------------------------------------------
+                                   2056 ;Allocation info for local variables in function 'uart0Gets'
+                                   2057 ;------------------------------------------------------------
+                                   2058 ;len                       Allocated with name '_uart0Gets_PARM_2'
+                                   2059 ;dat                       Allocated with name '_uart0Gets_dat_65536_51'
+                                   2060 ;------------------------------------------------------------
+                                   2061 ;	E:\Works\NSHET\sys.c:225: uint8_t uart0Gets(uint8_t* dat, uint8_t len) {
+                                   2062 ;	-----------------------------------------
+                                   2063 ;	 function uart0Gets
+                                   2064 ;	-----------------------------------------
+      000511                       2065 _uart0Gets:
+      000511 AF F0            [24] 2066 	mov	r7,b
+      000513 AE 83            [24] 2067 	mov	r6,dph
+      000515 E5 82            [12] 2068 	mov	a,dpl
+      000517 90r00r23         [24] 2069 	mov	dptr,#_uart0Gets_dat_65536_51
+      00051A F0               [24] 2070 	movx	@dptr,a
+      00051B EE               [12] 2071 	mov	a,r6
+      00051C A3               [24] 2072 	inc	dptr
+      00051D F0               [24] 2073 	movx	@dptr,a
+      00051E EF               [12] 2074 	mov	a,r7
+      00051F A3               [24] 2075 	inc	dptr
+      000520 F0               [24] 2076 	movx	@dptr,a
+                                   2077 ;	E:\Works\NSHET\sys.c:226: if (recPtr0 >= len) {
+      000521 90r00r24         [24] 2078 	mov	dptr,#_recPtr0
+      000524 E0               [24] 2079 	movx	a,@dptr
+      000525 FF               [12] 2080 	mov	r7,a
+      000526 90r00r22         [24] 2081 	mov	dptr,#_uart0Gets_PARM_2
+      000529 E0               [24] 2082 	movx	a,@dptr
+      00052A FE               [12] 2083 	mov	r6,a
+      00052B C3               [12] 2084 	clr	c
+      00052C EF               [12] 2085 	mov	a,r7
+      00052D 9E               [12] 2086 	subb	a,r6
+      00052E 50 03            [24] 2087 	jnc	00116$
+      000530 02r05rD2         [24] 2088 	ljmp	00104$
+      000533                       2089 00116$:
+                                   2090 ;	E:\Works\NSHET\sys.c:227: mmov(dat, recBuf0, len);
+      000533 90r00r23         [24] 2091 	mov	dptr,#_uart0Gets_dat_65536_51
+      000536 E0               [24] 2092 	movx	a,@dptr
+      000537 FC               [12] 2093 	mov	r4,a
+      000538 A3               [24] 2094 	inc	dptr
+      000539 E0               [24] 2095 	movx	a,@dptr
+      00053A FD               [12] 2096 	mov	r5,a
+      00053B A3               [24] 2097 	inc	dptr
+      00053C E0               [24] 2098 	movx	a,@dptr
+      00053D FF               [12] 2099 	mov	r7,a
+      00053E 90r00r08         [24] 2100 	mov	dptr,#_mmov_PARM_2
+      000541 74r04            [12] 2101 	mov	a,#_recBuf0
+      000543 F0               [24] 2102 	movx	@dptr,a
+      000544 74s00            [12] 2103 	mov	a,#(_recBuf0 >> 8)
+      000546 A3               [24] 2104 	inc	dptr
+      000547 F0               [24] 2105 	movx	@dptr,a
+      000548 E4               [12] 2106 	clr	a
+      000549 A3               [24] 2107 	inc	dptr
+      00054A F0               [24] 2108 	movx	@dptr,a
+      00054B 8E 02            [24] 2109 	mov	ar2,r6
+      00054D 7B 00            [12] 2110 	mov	r3,#0x00
+      00054F 90r00r0B         [24] 2111 	mov	dptr,#_mmov_PARM_3
+      000552 EA               [12] 2112 	mov	a,r2
+      000553 F0               [24] 2113 	movx	@dptr,a
+      000554 EB               [12] 2114 	mov	a,r3
+      000555 A3               [24] 2115 	inc	dptr
+      000556 F0               [24] 2116 	movx	@dptr,a
+      000557 8C 82            [24] 2117 	mov	dpl,r4
+      000559 8D 83            [24] 2118 	mov	dph,r5
+      00055B 8F F0            [24] 2119 	mov	b,r7
+      00055D C0 06            [24] 2120 	push	ar6
+      00055F C0 03            [24] 2121 	push	ar3
+      000561 C0 02            [24] 2122 	push	ar2
+      000563 12r00r67         [24] 2123 	lcall	_mmov
+      000566 D0 02            [24] 2124 	pop	ar2
+      000568 D0 03            [24] 2125 	pop	ar3
+      00056A D0 06            [24] 2126 	pop	ar6
+                                   2127 ;	E:\Works\NSHET\sys.c:228: recPtr0 -= len;
+      00056C 90r00r24         [24] 2128 	mov	dptr,#_recPtr0
+      00056F E0               [24] 2129 	movx	a,@dptr
+      000570 C3               [12] 2130 	clr	c
+      000571 9E               [12] 2131 	subb	a,r6
+      000572 F0               [24] 2132 	movx	@dptr,a
+                                   2133 ;	E:\Works\NSHET\sys.c:229: if (recPtr0 > 0)
+      000573 E0               [24] 2134 	movx	a,@dptr
+      000574 60 35            [24] 2135 	jz	00102$
+                                   2136 ;	E:\Works\NSHET\sys.c:230: mmov(recBuf0, recBuf0 + len, recPtr0);
+      000576 EE               [12] 2137 	mov	a,r6
+      000577 24r04            [12] 2138 	add	a,#_recBuf0
+      000579 FE               [12] 2139 	mov	r6,a
+      00057A E4               [12] 2140 	clr	a
+      00057B 34s00            [12] 2141 	addc	a,#(_recBuf0 >> 8)
+      00057D FF               [12] 2142 	mov	r7,a
+      00057E 7D 00            [12] 2143 	mov	r5,#0x00
+      000580 90r00r24         [24] 2144 	mov	dptr,#_recPtr0
+      000583 E0               [24] 2145 	movx	a,@dptr
+      000584 F9               [12] 2146 	mov	r1,a
+      000585 7C 00            [12] 2147 	mov	r4,#0x00
+      000587 90r00r08         [24] 2148 	mov	dptr,#_mmov_PARM_2
+      00058A EE               [12] 2149 	mov	a,r6
+      00058B F0               [24] 2150 	movx	@dptr,a
+      00058C EF               [12] 2151 	mov	a,r7
+      00058D A3               [24] 2152 	inc	dptr
+      00058E F0               [24] 2153 	movx	@dptr,a
+      00058F ED               [12] 2154 	mov	a,r5
+      000590 A3               [24] 2155 	inc	dptr
+      000591 F0               [24] 2156 	movx	@dptr,a
+      000592 90r00r0B         [24] 2157 	mov	dptr,#_mmov_PARM_3
+      000595 E9               [12] 2158 	mov	a,r1
+      000596 F0               [24] 2159 	movx	@dptr,a
+      000597 EC               [12] 2160 	mov	a,r4
+      000598 A3               [24] 2161 	inc	dptr
+      000599 F0               [24] 2162 	movx	@dptr,a
+      00059A 90r00r04         [24] 2163 	mov	dptr,#_recBuf0
+      00059D 75 F0 00         [24] 2164 	mov	b,#0x00
+      0005A0 C0 03            [24] 2165 	push	ar3
+      0005A2 C0 02            [24] 2166 	push	ar2
+      0005A4 12r00r67         [24] 2167 	lcall	_mmov
+      0005A7 D0 02            [24] 2168 	pop	ar2
+      0005A9 D0 03            [24] 2169 	pop	ar3
+      0005AB                       2170 00102$:
+                                   2171 ;	E:\Works\NSHET\sys.c:231: mset(recBuf0 + recPtr0, 0, len);
+      0005AB 90r00r24         [24] 2172 	mov	dptr,#_recPtr0
+      0005AE E0               [24] 2173 	movx	a,@dptr
+      0005AF 24r04            [12] 2174 	add	a,#_recBuf0
+      0005B1 FF               [12] 2175 	mov	r7,a
+      0005B2 E4               [12] 2176 	clr	a
+      0005B3 34s00            [12] 2177 	addc	a,#(_recBuf0 >> 8)
+      0005B5 FE               [12] 2178 	mov	r6,a
+      0005B6 7D 00            [12] 2179 	mov	r5,#0x00
+      0005B8 90r00r02         [24] 2180 	mov	dptr,#_mset_PARM_2
+      0005BB E4               [12] 2181 	clr	a
+      0005BC F0               [24] 2182 	movx	@dptr,a
+      0005BD 90r00r03         [24] 2183 	mov	dptr,#_mset_PARM_3
+      0005C0 EA               [12] 2184 	mov	a,r2
+      0005C1 F0               [24] 2185 	movx	@dptr,a
+      0005C2 EB               [12] 2186 	mov	a,r3
+      0005C3 A3               [24] 2187 	inc	dptr
+      0005C4 F0               [24] 2188 	movx	@dptr,a
+      0005C5 8F 82            [24] 2189 	mov	dpl,r7
+      0005C7 8E 83            [24] 2190 	mov	dph,r6
+      0005C9 8D F0            [24] 2191 	mov	b,r5
+      0005CB 12r00r00         [24] 2192 	lcall	_mset
+                                   2193 ;	E:\Works\NSHET\sys.c:232: return 1;
+      0005CE 75 82 01         [24] 2194 	mov	dpl,#0x01
+      0005D1 22               [24] 2195 	ret
+      0005D2                       2196 00104$:
+                                   2197 ;	E:\Works\NSHET\sys.c:234: return 0;
+      0005D2 75 82 00         [24] 2198 	mov	dpl,#0x00
+                                   2199 ;	E:\Works\NSHET\sys.c:235: }
+      0005D5 22               [24] 2200 	ret
+                                   2201 ;------------------------------------------------------------
+                                   2202 ;Allocation info for local variables in function 'uart0BlockRecv'
+                                   2203 ;------------------------------------------------------------
+                                   2204 ;siz                       Allocated with name '_uart0BlockRecv_PARM_2'
+                                   2205 ;ptr                       Allocated with name '_uart0BlockRecv_ptr_65536_54'
+                                   2206 ;------------------------------------------------------------
+                                   2207 ;	E:\Works\NSHET\sys.c:237: uint16_t uart0BlockRecv(uint8_t* ptr, uint16_t siz) {
+                                   2208 ;	-----------------------------------------
+                                   2209 ;	 function uart0BlockRecv
+                                   2210 ;	-----------------------------------------
+      0005D6                       2211 _uart0BlockRecv:
+      0005D6 AF F0            [24] 2212 	mov	r7,b
+      0005D8 AE 83            [24] 2213 	mov	r6,dph
+      0005DA E5 82            [12] 2214 	mov	a,dpl
+      0005DC 90r00r28         [24] 2215 	mov	dptr,#_uart0BlockRecv_ptr_65536_54
+      0005DF F0               [24] 2216 	movx	@dptr,a
+      0005E0 EE               [12] 2217 	mov	a,r6
+      0005E1 A3               [24] 2218 	inc	dptr
+      0005E2 F0               [24] 2219 	movx	@dptr,a
+      0005E3 EF               [12] 2220 	mov	a,r7
+      0005E4 A3               [24] 2221 	inc	dptr
+      0005E5 F0               [24] 2222 	movx	@dptr,a
+                                   2223 ;	E:\Works\NSHET\sys.c:238: if (ptr != NULL) {
+      0005E6 90r00r28         [24] 2224 	mov	dptr,#_uart0BlockRecv_ptr_65536_54
+      0005E9 E0               [24] 2225 	movx	a,@dptr
+      0005EA FD               [12] 2226 	mov	r5,a
+      0005EB A3               [24] 2227 	inc	dptr
+      0005EC E0               [24] 2228 	movx	a,@dptr
+      0005ED FE               [12] 2229 	mov	r6,a
+      0005EE A3               [24] 2230 	inc	dptr
+      0005EF E0               [24] 2231 	movx	a,@dptr
+      0005F0 FF               [12] 2232 	mov	r7,a
+      0005F1 90r00r28         [24] 2233 	mov	dptr,#_uart0BlockRecv_ptr_65536_54
+      0005F4 E0               [24] 2234 	movx	a,@dptr
+      0005F5 F5 F0            [12] 2235 	mov	b,a
+      0005F7 A3               [24] 2236 	inc	dptr
+      0005F8 E0               [24] 2237 	movx	a,@dptr
+      0005F9 45 F0            [12] 2238 	orl	a,b
+      0005FB 60 26            [24] 2239 	jz	00105$
+                                   2240 ;	E:\Works\NSHET\sys.c:239: block_recv_ptr = ptr;
+      0005FD 90r00r25         [24] 2241 	mov	dptr,#_block_recv_ptr
+      000600 ED               [12] 2242 	mov	a,r5
+      000601 F0               [24] 2243 	movx	@dptr,a
+      000602 EE               [12] 2244 	mov	a,r6
+      000603 A3               [24] 2245 	inc	dptr
+      000604 F0               [24] 2246 	movx	@dptr,a
+      000605 EF               [12] 2247 	mov	a,r7
+      000606 A3               [24] 2248 	inc	dptr
+      000607 F0               [24] 2249 	movx	@dptr,a
+                                   2250 ;	E:\Works\NSHET\sys.c:240: block_recv_pos = 0;
+      000608 90r00r28         [24] 2251 	mov	dptr,#_block_recv_pos
+      00060B E4               [12] 2252 	clr	a
+      00060C F0               [24] 2253 	movx	@dptr,a
+      00060D A3               [24] 2254 	inc	dptr
+      00060E F0               [24] 2255 	movx	@dptr,a
+                                   2256 ;	E:\Works\NSHET\sys.c:241: block_recv_siz = siz;
+      00060F 90r00r26         [24] 2257 	mov	dptr,#_uart0BlockRecv_PARM_2
+      000612 E0               [24] 2258 	movx	a,@dptr
+      000613 FE               [12] 2259 	mov	r6,a
+      000614 A3               [24] 2260 	inc	dptr
+      000615 E0               [24] 2261 	movx	a,@dptr
+      000616 FF               [12] 2262 	mov	r7,a
+      000617 90r00r2A         [24] 2263 	mov	dptr,#_block_recv_siz
+      00061A EE               [12] 2264 	mov	a,r6
+      00061B F0               [24] 2265 	movx	@dptr,a
+      00061C EF               [12] 2266 	mov	a,r7
+      00061D A3               [24] 2267 	inc	dptr
+      00061E F0               [24] 2268 	movx	@dptr,a
+                                   2269 ;	E:\Works\NSHET\sys.c:242: block_recv = 1;
+                                   2270 ;	assignBit
+      00061F D2*01            [12] 2271 	setb	_block_recv
+      000621 80 30            [24] 2272 	sjmp	00106$
+      000623                       2273 00105$:
+                                   2274 ;	E:\Works\NSHET\sys.c:243: } else if (siz != 0) {
+      000623 90r00r26         [24] 2275 	mov	dptr,#_uart0BlockRecv_PARM_2
+      000626 E0               [24] 2276 	movx	a,@dptr
+      000627 F5 F0            [12] 2277 	mov	b,a
+      000629 A3               [24] 2278 	inc	dptr
+      00062A E0               [24] 2279 	movx	a,@dptr
+      00062B 45 F0            [12] 2280 	orl	a,b
+      00062D 60 0D            [24] 2281 	jz	00102$
+                                   2282 ;	E:\Works\NSHET\sys.c:244: return block_recv_pos;
+      00062F 90r00r28         [24] 2283 	mov	dptr,#_block_recv_pos
+      000632 E0               [24] 2284 	movx	a,@dptr
+      000633 FE               [12] 2285 	mov	r6,a
+      000634 A3               [24] 2286 	inc	dptr
+      000635 E0               [24] 2287 	movx	a,@dptr
+      000636 FF               [12] 2288 	mov	r7,a
+      000637 8E 82            [24] 2289 	mov	dpl,r6
+      000639 8F 83            [24] 2290 	mov	dph,r7
+      00063B 22               [24] 2291 	ret
+      00063C                       2292 00102$:
+                                   2293 ;	E:\Works\NSHET\sys.c:246: block_recv = 0;
+                                   2294 ;	assignBit
+      00063C C2*01            [12] 2295 	clr	_block_recv
+                                   2296 ;	E:\Works\NSHET\sys.c:247: block_recv_ptr = NULL;
+      00063E 90r00r25         [24] 2297 	mov	dptr,#_block_recv_ptr
+      000641 E4               [12] 2298 	clr	a
+      000642 F0               [24] 2299 	movx	@dptr,a
+      000643 A3               [24] 2300 	inc	dptr
+      000644 F0               [24] 2301 	movx	@dptr,a
+      000645 A3               [24] 2302 	inc	dptr
+      000646 F0               [24] 2303 	movx	@dptr,a
+                                   2304 ;	E:\Works\NSHET\sys.c:248: block_recv_pos = 0;
+      000647 90r00r28         [24] 2305 	mov	dptr,#_block_recv_pos
+      00064A F0               [24] 2306 	movx	@dptr,a
+      00064B A3               [24] 2307 	inc	dptr
+      00064C F0               [24] 2308 	movx	@dptr,a
+                                   2309 ;	E:\Works\NSHET\sys.c:249: block_recv_siz = 0;
+      00064D 90r00r2A         [24] 2310 	mov	dptr,#_block_recv_siz
+      000650 F0               [24] 2311 	movx	@dptr,a
+      000651 A3               [24] 2312 	inc	dptr
+      000652 F0               [24] 2313 	movx	@dptr,a
+      000653                       2314 00106$:
+                                   2315 ;	E:\Works\NSHET\sys.c:251: return 0;
+      000653 90 00 00         [24] 2316 	mov	dptr,#0x0000
+                                   2317 ;	E:\Works\NSHET\sys.c:252: }
+      000656 22               [24] 2318 	ret
+                                   2319 ;------------------------------------------------------------
+                                   2320 ;Allocation info for local variables in function 'uart1Config'
+                                   2321 ;------------------------------------------------------------
+                                   2322 ;baud                      Allocated with name '_uart1Config_baud_65536_59'
+                                   2323 ;DIV                       Allocated with name '_uart1Config_DIV_65536_60'
+                                   2324 ;------------------------------------------------------------
+                                   2325 ;	E:\Works\NSHET\sys.c:254: void uart1Config(uint32_t baud) {
+                                   2326 ;	-----------------------------------------
+                                   2327 ;	 function uart1Config
+                                   2328 ;	-----------------------------------------
+      000657                       2329 _uart1Config:
+      000657 AF 82            [24] 2330 	mov	r7,dpl
+      000659 AE 83            [24] 2331 	mov	r6,dph
+      00065B AD F0            [24] 2332 	mov	r5,b
+      00065D FC               [12] 2333 	mov	r4,a
+      00065E 90r00r2B         [24] 2334 	mov	dptr,#_uart1Config_baud_65536_59
+      000661 EF               [12] 2335 	mov	a,r7
+      000662 F0               [24] 2336 	movx	@dptr,a
+      000663 EE               [12] 2337 	mov	a,r6
+      000664 A3               [24] 2338 	inc	dptr
+      000665 F0               [24] 2339 	movx	@dptr,a
+      000666 ED               [12] 2340 	mov	a,r5
+      000667 A3               [24] 2341 	inc	dptr
+      000668 F0               [24] 2342 	movx	@dptr,a
+      000669 EC               [12] 2343 	mov	a,r4
+      00066A A3               [24] 2344 	inc	dptr
+      00066B F0               [24] 2345 	movx	@dptr,a
+                                   2346 ;	E:\Works\NSHET\sys.c:257: SER1_LCR |= bLCR_DLAB;
+      00066C 43 93 80         [24] 2347 	orl	_SER1_LCR,#0x80
+                                   2348 ;	E:\Works\NSHET\sys.c:258: SER1_DIV = DIV;
+      00066F 75 97 01         [24] 2349 	mov	_SER1_ADDR,#0x01
+                                   2350 ;	E:\Works\NSHET\sys.c:259: x = 10 * FREQ_SYS * 2 / DIV / 16 / baud;                             
+      000672 90r00r2B         [24] 2351 	mov	dptr,#_uart1Config_baud_65536_59
+      000675 E0               [24] 2352 	movx	a,@dptr
+      000676 FC               [12] 2353 	mov	r4,a
+      000677 A3               [24] 2354 	inc	dptr
+      000678 E0               [24] 2355 	movx	a,@dptr
+      000679 FD               [12] 2356 	mov	r5,a
+      00067A A3               [24] 2357 	inc	dptr
+      00067B E0               [24] 2358 	movx	a,@dptr
+      00067C FE               [12] 2359 	mov	r6,a
+      00067D A3               [24] 2360 	inc	dptr
+      00067E E0               [24] 2361 	movx	a,@dptr
+      00067F FF               [12] 2362 	mov	r7,a
+      000680 90r00r00         [24] 2363 	mov	dptr,#__divulong_PARM_2
+      000683 EC               [12] 2364 	mov	a,r4
+      000684 F0               [24] 2365 	movx	@dptr,a
+      000685 ED               [12] 2366 	mov	a,r5
+      000686 A3               [24] 2367 	inc	dptr
+      000687 F0               [24] 2368 	movx	@dptr,a
+      000688 EE               [12] 2369 	mov	a,r6
+      000689 A3               [24] 2370 	inc	dptr
+      00068A F0               [24] 2371 	movx	@dptr,a
+      00068B EF               [12] 2372 	mov	a,r7
+      00068C A3               [24] 2373 	inc	dptr
+      00068D F0               [24] 2374 	movx	@dptr,a
+                                   2375 ;	E:\Works\NSHET\sys.c:260: x2 = x % 10;
+      00068E 90 87 00         [24] 2376 	mov	dptr,#0x8700
+      000691 75 F0 93         [24] 2377 	mov	b,#0x93
+      000694 74 03            [12] 2378 	mov	a,#0x03
+      000696 12r00r00         [24] 2379 	lcall	__divulong
+      000699 AC 82            [24] 2380 	mov	r4,dpl
+      00069B AD 83            [24] 2381 	mov	r5,dph
+      00069D AE F0            [24] 2382 	mov	r6,b
+      00069F FF               [12] 2383 	mov	r7,a
+      0006A0 90r00r00         [24] 2384 	mov	dptr,#__modulong_PARM_2
+      0006A3 74 0A            [12] 2385 	mov	a,#0x0a
+      0006A5 F0               [24] 2386 	movx	@dptr,a
+      0006A6 E4               [12] 2387 	clr	a
+      0006A7 A3               [24] 2388 	inc	dptr
+      0006A8 F0               [24] 2389 	movx	@dptr,a
+      0006A9 A3               [24] 2390 	inc	dptr
+      0006AA F0               [24] 2391 	movx	@dptr,a
+      0006AB A3               [24] 2392 	inc	dptr
+      0006AC F0               [24] 2393 	movx	@dptr,a
+      0006AD 8C 82            [24] 2394 	mov	dpl,r4
+      0006AF 8D 83            [24] 2395 	mov	dph,r5
+      0006B1 8E F0            [24] 2396 	mov	b,r6
+      0006B3 EF               [12] 2397 	mov	a,r7
+      0006B4 C0 07            [24] 2398 	push	ar7
+      0006B6 C0 06            [24] 2399 	push	ar6
+      0006B8 C0 05            [24] 2400 	push	ar5
+      0006BA C0 04            [24] 2401 	push	ar4
+      0006BC 12r00r00         [24] 2402 	lcall	__modulong
+      0006BF A8 82            [24] 2403 	mov	r0,dpl
+      0006C1 D0 04            [24] 2404 	pop	ar4
+      0006C3 D0 05            [24] 2405 	pop	ar5
+      0006C5 D0 06            [24] 2406 	pop	ar6
+      0006C7 D0 07            [24] 2407 	pop	ar7
+      0006C9 90r00r18         [24] 2408 	mov	dptr,#_x2
+      0006CC E8               [12] 2409 	mov	a,r0
+      0006CD F0               [24] 2410 	movx	@dptr,a
+                                   2411 ;	E:\Works\NSHET\sys.c:261: x /= 10;
+      0006CE 90r00r00         [24] 2412 	mov	dptr,#__divulong_PARM_2
+      0006D1 74 0A            [12] 2413 	mov	a,#0x0a
+      0006D3 F0               [24] 2414 	movx	@dptr,a
+      0006D4 E4               [12] 2415 	clr	a
+      0006D5 A3               [24] 2416 	inc	dptr
+      0006D6 F0               [24] 2417 	movx	@dptr,a
+      0006D7 A3               [24] 2418 	inc	dptr
+      0006D8 F0               [24] 2419 	movx	@dptr,a
+      0006D9 A3               [24] 2420 	inc	dptr
+      0006DA F0               [24] 2421 	movx	@dptr,a
+      0006DB 8C 82            [24] 2422 	mov	dpl,r4
+      0006DD 8D 83            [24] 2423 	mov	dph,r5
+      0006DF 8E F0            [24] 2424 	mov	b,r6
+      0006E1 EF               [12] 2425 	mov	a,r7
+      0006E2 C0 00            [24] 2426 	push	ar0
+      0006E4 12r00r00         [24] 2427 	lcall	__divulong
+      0006E7 AC 82            [24] 2428 	mov	r4,dpl
+      0006E9 AD 83            [24] 2429 	mov	r5,dph
+      0006EB AE F0            [24] 2430 	mov	r6,b
+      0006ED FF               [12] 2431 	mov	r7,a
+      0006EE D0 00            [24] 2432 	pop	ar0
+      0006F0 90r00r14         [24] 2433 	mov	dptr,#_x
+      0006F3 EC               [12] 2434 	mov	a,r4
+      0006F4 F0               [24] 2435 	movx	@dptr,a
+      0006F5 ED               [12] 2436 	mov	a,r5
+      0006F6 A3               [24] 2437 	inc	dptr
+      0006F7 F0               [24] 2438 	movx	@dptr,a
+      0006F8 EE               [12] 2439 	mov	a,r6
+      0006F9 A3               [24] 2440 	inc	dptr
+      0006FA F0               [24] 2441 	movx	@dptr,a
+      0006FB EF               [12] 2442 	mov	a,r7
+      0006FC A3               [24] 2443 	inc	dptr
+      0006FD F0               [24] 2444 	movx	@dptr,a
+                                   2445 ;	E:\Works\NSHET\sys.c:262: if (x2 >= 5) x++;
+      0006FE B8 05 00         [24] 2446 	cjne	r0,#0x05,00109$
+      000701                       2447 00109$:
+      000701 40 13            [24] 2448 	jc	00102$
+      000703 90r00r14         [24] 2449 	mov	dptr,#_x
+      000706 74 01            [12] 2450 	mov	a,#0x01
+      000708 2C               [12] 2451 	add	a,r4
+      000709 F0               [24] 2452 	movx	@dptr,a
+      00070A E4               [12] 2453 	clr	a
+      00070B 3D               [12] 2454 	addc	a,r5
+      00070C A3               [24] 2455 	inc	dptr
+      00070D F0               [24] 2456 	movx	@dptr,a
+      00070E E4               [12] 2457 	clr	a
+      00070F 3E               [12] 2458 	addc	a,r6
+      000710 A3               [24] 2459 	inc	dptr
+      000711 F0               [24] 2460 	movx	@dptr,a
+      000712 E4               [12] 2461 	clr	a
+      000713 3F               [12] 2462 	addc	a,r7
+      000714 A3               [24] 2463 	inc	dptr
+      000715 F0               [24] 2464 	movx	@dptr,a
+      000716                       2465 00102$:
+                                   2466 ;	E:\Works\NSHET\sys.c:263: SER1_DLM = x >> 8;
+      000716 90r00r14         [24] 2467 	mov	dptr,#_x
+      000719 E0               [24] 2468 	movx	a,@dptr
+      00071A FC               [12] 2469 	mov	r4,a
+      00071B A3               [24] 2470 	inc	dptr
+      00071C E0               [24] 2471 	movx	a,@dptr
+      00071D FD               [12] 2472 	mov	r5,a
+      00071E A3               [24] 2473 	inc	dptr
+      00071F E0               [24] 2474 	movx	a,@dptr
+      000720 A3               [24] 2475 	inc	dptr
+      000721 E0               [24] 2476 	movx	a,@dptr
+      000722 8D 91            [24] 2477 	mov	_SER1_IER,r5
+                                   2478 ;	E:\Works\NSHET\sys.c:264: SER1_DLL = x & 0xFF;
+      000724 8C 9A            [24] 2479 	mov	_SER1_FIFO,r4
+                                   2480 ;	E:\Works\NSHET\sys.c:265: SER1_LCR &= ~bLCR_DLAB;
+      000726 53 93 7F         [24] 2481 	anl	_SER1_LCR,#0x7f
+                                   2482 ;	E:\Works\NSHET\sys.c:267: XBUS_AUX |= bALE_CLK_EN;
+      000729 43 A2 10         [24] 2483 	orl	_XBUS_AUX,#0x10
+                                   2484 ;	E:\Works\NSHET\sys.c:269: SER1_LCR |= MASK_U1_WORD_SZ;
+      00072C 43 93 03         [24] 2485 	orl	_SER1_LCR,#0x03
+                                   2486 ;	E:\Works\NSHET\sys.c:270: SER1_LCR &= ~(bLCR_PAR_EN | bLCR_STOP_BIT);
+      00072F 53 93 F3         [24] 2487 	anl	_SER1_LCR,#0xf3
+                                   2488 ;	E:\Works\NSHET\sys.c:272: SER1_IER |= ((2 << 4) & MASK_U1_PIN_MOD);
+      000732 43 91 20         [24] 2489 	orl	_SER1_IER,#0x20
+                                   2490 ;	E:\Works\NSHET\sys.c:274: SER1_MCR |= bMCR_OUT2;
+      000735 43 94 08         [24] 2491 	orl	_SER1_MCR,#0x08
+                                   2492 ;	E:\Works\NSHET\sys.c:275: x2 = SER1_IIR;
+      000738 90r00r18         [24] 2493 	mov	dptr,#_x2
+      00073B E5 92            [12] 2494 	mov	a,_SER1_IIR
+      00073D F0               [24] 2495 	movx	@dptr,a
+                                   2496 ;	E:\Works\NSHET\sys.c:277: SER1_ADDR |= 0xFF;
+      00073E E5 97            [12] 2497 	mov	a,_SER1_ADDR
+      000740 75 97 FF         [24] 2498 	mov	_SER1_ADDR,#0xff
+                                   2499 ;	E:\Works\NSHET\sys.c:279: IE_UART1 = 1;
+                                   2500 ;	assignBit
+      000743 D2 EC            [12] 2501 	setb	_IE_UART1
+                                   2502 ;	E:\Works\NSHET\sys.c:281: sysTickConfig();
+                                   2503 ;	E:\Works\NSHET\sys.c:282: }
+      000745 02r02r3C         [24] 2504 	ljmp	_sysTickConfig
+                                   2505 ;------------------------------------------------------------
+                                   2506 ;Allocation info for local variables in function 'uart1Send'
+                                   2507 ;------------------------------------------------------------
+                                   2508 ;data                      Allocated with name '_uart1Send_data_65536_61'
+                                   2509 ;------------------------------------------------------------
+                                   2510 ;	E:\Works\NSHET\sys.c:284: void uart1Send(uint8_t data) {
+                                   2511 ;	-----------------------------------------
+                                   2512 ;	 function uart1Send
+                                   2513 ;	-----------------------------------------
+      000748                       2514 _uart1Send:
+      000748 E5 82            [12] 2515 	mov	a,dpl
+      00074A 90r00r2F         [24] 2516 	mov	dptr,#_uart1Send_data_65536_61
+      00074D F0               [24] 2517 	movx	@dptr,a
+                                   2518 ;	E:\Works\NSHET\sys.c:285: while ((SER1_LSR & bLSR_T_FIFO_EMP) == 0);
+      00074E                       2519 00101$:
+      00074E E5 95            [12] 2520 	mov	a,_SER1_LSR
+      000750 30 E5 FB         [24] 2521 	jnb	acc.5,00101$
+                                   2522 ;	E:\Works\NSHET\sys.c:286: SER1_THR = data;
+      000753 90r00r2F         [24] 2523 	mov	dptr,#_uart1Send_data_65536_61
+      000756 E0               [24] 2524 	movx	a,@dptr
+      000757 F5 9A            [12] 2525 	mov	_SER1_FIFO,a
+                                   2526 ;	E:\Works\NSHET\sys.c:287: }
+      000759 22               [24] 2527 	ret
+                                   2528 ;------------------------------------------------------------
+                                   2529 ;Allocation info for local variables in function 'uart1Write'
+                                   2530 ;------------------------------------------------------------
+                                   2531 ;s                         Allocated with name '_uart1Write_s_65536_63'
+                                   2532 ;------------------------------------------------------------
+                                   2533 ;	E:\Works\NSHET\sys.c:289: void uart1Write(char* s) {
+                                   2534 ;	-----------------------------------------
+                                   2535 ;	 function uart1Write
+                                   2536 ;	-----------------------------------------
+      00075A                       2537 _uart1Write:
+      00075A AF F0            [24] 2538 	mov	r7,b
+      00075C AE 83            [24] 2539 	mov	r6,dph
+      00075E E5 82            [12] 2540 	mov	a,dpl
+      000760 90r00r30         [24] 2541 	mov	dptr,#_uart1Write_s_65536_63
+      000763 F0               [24] 2542 	movx	@dptr,a
+      000764 EE               [12] 2543 	mov	a,r6
+      000765 A3               [24] 2544 	inc	dptr
+      000766 F0               [24] 2545 	movx	@dptr,a
+      000767 EF               [12] 2546 	mov	a,r7
+      000768 A3               [24] 2547 	inc	dptr
+      000769 F0               [24] 2548 	movx	@dptr,a
+                                   2549 ;	E:\Works\NSHET\sys.c:290: while (*s) {
+      00076A 90r00r30         [24] 2550 	mov	dptr,#_uart1Write_s_65536_63
+      00076D E0               [24] 2551 	movx	a,@dptr
+      00076E FD               [12] 2552 	mov	r5,a
+      00076F A3               [24] 2553 	inc	dptr
+      000770 E0               [24] 2554 	movx	a,@dptr
+      000771 FE               [12] 2555 	mov	r6,a
+      000772 A3               [24] 2556 	inc	dptr
+      000773 E0               [24] 2557 	movx	a,@dptr
+      000774 FF               [12] 2558 	mov	r7,a
+      000775                       2559 00101$:
+      000775 8D 82            [24] 2560 	mov	dpl,r5
+      000777 8E 83            [24] 2561 	mov	dph,r6
+      000779 8F F0            [24] 2562 	mov	b,r7
+      00077B 12r00r00         [24] 2563 	lcall	__gptrget
+      00077E FC               [12] 2564 	mov	r4,a
+      00077F 60 23            [24] 2565 	jz	00108$
+                                   2566 ;	E:\Works\NSHET\sys.c:291: uart1Send(*s++);
+      000781 0D               [12] 2567 	inc	r5
+      000782 BD 00 01         [24] 2568 	cjne	r5,#0x00,00116$
+      000785 0E               [12] 2569 	inc	r6
+      000786                       2570 00116$:
+      000786 90r00r30         [24] 2571 	mov	dptr,#_uart1Write_s_65536_63
+      000789 ED               [12] 2572 	mov	a,r5
+      00078A F0               [24] 2573 	movx	@dptr,a
+      00078B EE               [12] 2574 	mov	a,r6
+      00078C A3               [24] 2575 	inc	dptr
+      00078D F0               [24] 2576 	movx	@dptr,a
+      00078E EF               [12] 2577 	mov	a,r7
+      00078F A3               [24] 2578 	inc	dptr
+      000790 F0               [24] 2579 	movx	@dptr,a
+      000791 8C 82            [24] 2580 	mov	dpl,r4
+      000793 C0 07            [24] 2581 	push	ar7
+      000795 C0 06            [24] 2582 	push	ar6
+      000797 C0 05            [24] 2583 	push	ar5
+      000799 12r07r48         [24] 2584 	lcall	_uart1Send
+      00079C D0 05            [24] 2585 	pop	ar5
+      00079E D0 06            [24] 2586 	pop	ar6
+      0007A0 D0 07            [24] 2587 	pop	ar7
+      0007A2 80 D1            [24] 2588 	sjmp	00101$
+      0007A4                       2589 00108$:
+      0007A4 90r00r30         [24] 2590 	mov	dptr,#_uart1Write_s_65536_63
+      0007A7 ED               [12] 2591 	mov	a,r5
+      0007A8 F0               [24] 2592 	movx	@dptr,a
+      0007A9 EE               [12] 2593 	mov	a,r6
+      0007AA A3               [24] 2594 	inc	dptr
+      0007AB F0               [24] 2595 	movx	@dptr,a
+      0007AC EF               [12] 2596 	mov	a,r7
+      0007AD A3               [24] 2597 	inc	dptr
+      0007AE F0               [24] 2598 	movx	@dptr,a
+                                   2599 ;	E:\Works\NSHET\sys.c:293: }
+      0007AF 22               [24] 2600 	ret
+                                   2601 ;------------------------------------------------------------
+                                   2602 ;Allocation info for local variables in function 'uart1Get'
+                                   2603 ;------------------------------------------------------------
+                                   2604 ;	E:\Works\NSHET\sys.c:296: uint8_t uart1Get() {
+                                   2605 ;	-----------------------------------------
+                                   2606 ;	 function uart1Get
+                                   2607 ;	-----------------------------------------
+      0007B0                       2608 _uart1Get:
+                                   2609 ;	E:\Works\NSHET\sys.c:297: u1t = sysGetTickCount();
+      0007B0 12r02r8C         [24] 2610 	lcall	_sysGetTickCount
+      0007B3 AC 82            [24] 2611 	mov	r4,dpl
+      0007B5 AD 83            [24] 2612 	mov	r5,dph
+      0007B7 AE F0            [24] 2613 	mov	r6,b
+      0007B9 FF               [12] 2614 	mov	r7,a
+      0007BA 90r00r33         [24] 2615 	mov	dptr,#_u1t
+      0007BD EC               [12] 2616 	mov	a,r4
+      0007BE F0               [24] 2617 	movx	@dptr,a
+      0007BF ED               [12] 2618 	mov	a,r5
+      0007C0 A3               [24] 2619 	inc	dptr
+      0007C1 F0               [24] 2620 	movx	@dptr,a
+      0007C2 EE               [12] 2621 	mov	a,r6
+      0007C3 A3               [24] 2622 	inc	dptr
+      0007C4 F0               [24] 2623 	movx	@dptr,a
+      0007C5 EF               [12] 2624 	mov	a,r7
+      0007C6 A3               [24] 2625 	inc	dptr
+      0007C7 F0               [24] 2626 	movx	@dptr,a
+                                   2627 ;	E:\Works\NSHET\sys.c:298: while ((SER1_LSR & bLSR_DATA_RDY) == 0) {
+      0007C8                       2628 00103$:
+      0007C8 E5 95            [12] 2629 	mov	a,_SER1_LSR
+      0007CA 20 E0 3D         [24] 2630 	jb	acc.0,00105$
+                                   2631 ;	E:\Works\NSHET\sys.c:299: if (sysGetTickCount() - u1t > UART1_TIMEOUT) {
+      0007CD 12r02r8C         [24] 2632 	lcall	_sysGetTickCount
+      0007D0 AC 82            [24] 2633 	mov	r4,dpl
+      0007D2 AD 83            [24] 2634 	mov	r5,dph
+      0007D4 AE F0            [24] 2635 	mov	r6,b
+      0007D6 FF               [12] 2636 	mov	r7,a
+      0007D7 90r00r33         [24] 2637 	mov	dptr,#_u1t
+      0007DA E0               [24] 2638 	movx	a,@dptr
+      0007DB F8               [12] 2639 	mov	r0,a
+      0007DC A3               [24] 2640 	inc	dptr
+      0007DD E0               [24] 2641 	movx	a,@dptr
+      0007DE F9               [12] 2642 	mov	r1,a
+      0007DF A3               [24] 2643 	inc	dptr
+      0007E0 E0               [24] 2644 	movx	a,@dptr
+      0007E1 FA               [12] 2645 	mov	r2,a
+      0007E2 A3               [24] 2646 	inc	dptr
+      0007E3 E0               [24] 2647 	movx	a,@dptr
+      0007E4 FB               [12] 2648 	mov	r3,a
+      0007E5 EC               [12] 2649 	mov	a,r4
+      0007E6 C3               [12] 2650 	clr	c
+      0007E7 98               [12] 2651 	subb	a,r0
+      0007E8 FC               [12] 2652 	mov	r4,a
+      0007E9 ED               [12] 2653 	mov	a,r5
+      0007EA 99               [12] 2654 	subb	a,r1
+      0007EB FD               [12] 2655 	mov	r5,a
+      0007EC EE               [12] 2656 	mov	a,r6
+      0007ED 9A               [12] 2657 	subb	a,r2
+      0007EE FE               [12] 2658 	mov	r6,a
+      0007EF EF               [12] 2659 	mov	a,r7
+      0007F0 9B               [12] 2660 	subb	a,r3
+      0007F1 FF               [12] 2661 	mov	r7,a
+      0007F2 C3               [12] 2662 	clr	c
+      0007F3 74 E8            [12] 2663 	mov	a,#0xe8
+      0007F5 9C               [12] 2664 	subb	a,r4
+      0007F6 74 03            [12] 2665 	mov	a,#0x03
+      0007F8 9D               [12] 2666 	subb	a,r5
+      0007F9 E4               [12] 2667 	clr	a
+      0007FA 9E               [12] 2668 	subb	a,r6
+      0007FB E4               [12] 2669 	clr	a
+      0007FC 9F               [12] 2670 	subb	a,r7
+      0007FD 50 C9            [24] 2671 	jnc	00103$
+                                   2672 ;	E:\Works\NSHET\sys.c:300: u1t = 0;
+      0007FF 90r00r33         [24] 2673 	mov	dptr,#_u1t
+      000802 E4               [12] 2674 	clr	a
+      000803 F0               [24] 2675 	movx	@dptr,a
+      000804 A3               [24] 2676 	inc	dptr
+      000805 F0               [24] 2677 	movx	@dptr,a
+      000806 A3               [24] 2678 	inc	dptr
+      000807 F0               [24] 2679 	movx	@dptr,a
+      000808 A3               [24] 2680 	inc	dptr
+      000809 F0               [24] 2681 	movx	@dptr,a
+                                   2682 ;	E:\Works\NSHET\sys.c:301: break;
+      00080A                       2683 00105$:
+                                   2684 ;	E:\Works\NSHET\sys.c:304: return SER1_RBR;
+      00080A 85 9A 82         [24] 2685 	mov	dpl,_SER1_FIFO
+                                   2686 ;	E:\Works\NSHET\sys.c:305: }
+      00080D 22               [24] 2687 	ret
+                                   2688 ;------------------------------------------------------------
+                                   2689 ;Allocation info for local variables in function 'uart1Gets'
+                                   2690 ;------------------------------------------------------------
+                                   2691 ;len                       Allocated with name '_uart1Gets_PARM_2'
+                                   2692 ;dat                       Allocated with name '_uart1Gets_dat_65536_69'
+                                   2693 ;------------------------------------------------------------
+                                   2694 ;	E:\Works\NSHET\sys.c:308: uint8_t uart1Gets(uint8_t* dat, uint8_t len) {
+                                   2695 ;	-----------------------------------------
+                                   2696 ;	 function uart1Gets
+                                   2697 ;	-----------------------------------------
+      00080E                       2698 _uart1Gets:
+      00080E AF F0            [24] 2699 	mov	r7,b
+      000810 AE 83            [24] 2700 	mov	r6,dph
+      000812 E5 82            [12] 2701 	mov	a,dpl
+      000814 90r00r39         [24] 2702 	mov	dptr,#_uart1Gets_dat_65536_69
+      000817 F0               [24] 2703 	movx	@dptr,a
+      000818 EE               [12] 2704 	mov	a,r6
+      000819 A3               [24] 2705 	inc	dptr
+      00081A F0               [24] 2706 	movx	@dptr,a
+      00081B EF               [12] 2707 	mov	a,r7
+      00081C A3               [24] 2708 	inc	dptr
+      00081D F0               [24] 2709 	movx	@dptr,a
+                                   2710 ;	E:\Works\NSHET\sys.c:309: for (u1c = 0; u1c < len; u1c++) {
+      00081E 90r00r37         [24] 2711 	mov	dptr,#_u1c
+      000821 E4               [12] 2712 	clr	a
+      000822 F0               [24] 2713 	movx	@dptr,a
+      000823 90r00r39         [24] 2714 	mov	dptr,#_uart1Gets_dat_65536_69
+      000826 E0               [24] 2715 	movx	a,@dptr
+      000827 FD               [12] 2716 	mov	r5,a
+      000828 A3               [24] 2717 	inc	dptr
+      000829 E0               [24] 2718 	movx	a,@dptr
+      00082A FE               [12] 2719 	mov	r6,a
+      00082B A3               [24] 2720 	inc	dptr
+      00082C E0               [24] 2721 	movx	a,@dptr
+      00082D FF               [12] 2722 	mov	r7,a
+      00082E 90r00r38         [24] 2723 	mov	dptr,#_uart1Gets_PARM_2
+      000831 E0               [24] 2724 	movx	a,@dptr
+      000832 FC               [12] 2725 	mov	r4,a
+      000833                       2726 00105$:
+      000833 90r00r37         [24] 2727 	mov	dptr,#_u1c
+      000836 E0               [24] 2728 	movx	a,@dptr
+      000837 FB               [12] 2729 	mov	r3,a
+      000838 C3               [12] 2730 	clr	c
+      000839 9C               [12] 2731 	subb	a,r4
+      00083A 50 53            [24] 2732 	jnc	00103$
+                                   2733 ;	E:\Works\NSHET\sys.c:310: dat[u1c] = uart1Get();
+      00083C EB               [12] 2734 	mov	a,r3
+      00083D 2D               [12] 2735 	add	a,r5
+      00083E F9               [12] 2736 	mov	r1,a
+      00083F E4               [12] 2737 	clr	a
+      000840 3E               [12] 2738 	addc	a,r6
+      000841 FA               [12] 2739 	mov	r2,a
+      000842 8F 03            [24] 2740 	mov	ar3,r7
+      000844 C0 07            [24] 2741 	push	ar7
+      000846 C0 06            [24] 2742 	push	ar6
+      000848 C0 05            [24] 2743 	push	ar5
+      00084A C0 04            [24] 2744 	push	ar4
+      00084C C0 03            [24] 2745 	push	ar3
+      00084E C0 02            [24] 2746 	push	ar2
+      000850 C0 01            [24] 2747 	push	ar1
+      000852 12r07rB0         [24] 2748 	lcall	_uart1Get
+      000855 A8 82            [24] 2749 	mov	r0,dpl
+      000857 D0 01            [24] 2750 	pop	ar1
+      000859 D0 02            [24] 2751 	pop	ar2
+      00085B D0 03            [24] 2752 	pop	ar3
+      00085D D0 04            [24] 2753 	pop	ar4
+      00085F D0 05            [24] 2754 	pop	ar5
+      000861 D0 06            [24] 2755 	pop	ar6
+      000863 D0 07            [24] 2756 	pop	ar7
+      000865 89 82            [24] 2757 	mov	dpl,r1
+      000867 8A 83            [24] 2758 	mov	dph,r2
+      000869 8B F0            [24] 2759 	mov	b,r3
+      00086B E8               [12] 2760 	mov	a,r0
+      00086C 12r00r00         [24] 2761 	lcall	__gptrput
+                                   2762 ;	E:\Works\NSHET\sys.c:311: if (u1t == 0) return 0;
+      00086F 90r00r33         [24] 2763 	mov	dptr,#_u1t
+      000872 E0               [24] 2764 	movx	a,@dptr
+      000873 F5 F0            [12] 2765 	mov	b,a
+      000875 A3               [24] 2766 	inc	dptr
+      000876 E0               [24] 2767 	movx	a,@dptr
+      000877 42 F0            [12] 2768 	orl	b,a
+      000879 A3               [24] 2769 	inc	dptr
+      00087A E0               [24] 2770 	movx	a,@dptr
+      00087B 42 F0            [12] 2771 	orl	b,a
+      00087D A3               [24] 2772 	inc	dptr
+      00087E E0               [24] 2773 	movx	a,@dptr
+      00087F 45 F0            [12] 2774 	orl	a,b
+      000881 70 03            [24] 2775 	jnz	00106$
+      000883 F5 82            [12] 2776 	mov	dpl,a
+      000885 22               [24] 2777 	ret
+      000886                       2778 00106$:
+                                   2779 ;	E:\Works\NSHET\sys.c:309: for (u1c = 0; u1c < len; u1c++) {
+      000886 90r00r37         [24] 2780 	mov	dptr,#_u1c
+      000889 E0               [24] 2781 	movx	a,@dptr
+      00088A 24 01            [12] 2782 	add	a,#0x01
+      00088C F0               [24] 2783 	movx	@dptr,a
+      00088D 80 A4            [24] 2784 	sjmp	00105$
+      00088F                       2785 00103$:
+                                   2786 ;	E:\Works\NSHET\sys.c:313: return 1;
+      00088F 75 82 01         [24] 2787 	mov	dpl,#0x01
+                                   2788 ;	E:\Works\NSHET\sys.c:314: }
+      000892 22               [24] 2789 	ret
+                                   2790 ;------------------------------------------------------------
+                                   2791 ;Allocation info for local variables in function 'pwm3Init'
+                                   2792 ;------------------------------------------------------------
+                                   2793 ;freq                      Allocated with name '_pwm3Init_freq_65536_73'
+                                   2794 ;------------------------------------------------------------
+                                   2795 ;	E:\Works\NSHET\sys.c:316: void pwm3Init(uint32_t freq) {
+                                   2796 ;	-----------------------------------------
+                                   2797 ;	 function pwm3Init
+                                   2798 ;	-----------------------------------------
+      000893                       2799 _pwm3Init:
+      000893 AF 82            [24] 2800 	mov	r7,dpl
+      000895 AE 83            [24] 2801 	mov	r6,dph
+      000897 AD F0            [24] 2802 	mov	r5,b
+      000899 FC               [12] 2803 	mov	r4,a
+      00089A 90r00r3C         [24] 2804 	mov	dptr,#_pwm3Init_freq_65536_73
+      00089D EF               [12] 2805 	mov	a,r7
+      00089E F0               [24] 2806 	movx	@dptr,a
+      00089F EE               [12] 2807 	mov	a,r6
+      0008A0 A3               [24] 2808 	inc	dptr
+      0008A1 F0               [24] 2809 	movx	@dptr,a
+      0008A2 ED               [12] 2810 	mov	a,r5
+      0008A3 A3               [24] 2811 	inc	dptr
+      0008A4 F0               [24] 2812 	movx	@dptr,a
+      0008A5 EC               [12] 2813 	mov	a,r4
+      0008A6 A3               [24] 2814 	inc	dptr
+      0008A7 F0               [24] 2815 	movx	@dptr,a
+                                   2816 ;	E:\Works\NSHET\sys.c:317: P1_DIR |= bPWM3;
+      0008A8 43 BA 04         [24] 2817 	orl	_P1_DIR,#0x04
+                                   2818 ;	E:\Works\NSHET\sys.c:318: PORT_CFG &= ~bP1_OC;
+      0008AB 53 C6 FD         [24] 2819 	anl	_PORT_CFG,#0xfd
+                                   2820 ;	E:\Works\NSHET\sys.c:320: T3_SETUP |= bT3_EN_CK_SE;
+      0008AE 43 A3 01         [24] 2821 	orl	_T3_SETUP,#0x01
+                                   2822 ;	E:\Works\NSHET\sys.c:321: x = FREQ_SYS / (freq * 100);
+      0008B1 90r00r3C         [24] 2823 	mov	dptr,#_pwm3Init_freq_65536_73
+      0008B4 E0               [24] 2824 	movx	a,@dptr
+      0008B5 FC               [12] 2825 	mov	r4,a
+      0008B6 A3               [24] 2826 	inc	dptr
+      0008B7 E0               [24] 2827 	movx	a,@dptr
+      0008B8 FD               [12] 2828 	mov	r5,a
+      0008B9 A3               [24] 2829 	inc	dptr
+      0008BA E0               [24] 2830 	movx	a,@dptr
+      0008BB FE               [12] 2831 	mov	r6,a
+      0008BC A3               [24] 2832 	inc	dptr
+      0008BD E0               [24] 2833 	movx	a,@dptr
+      0008BE FF               [12] 2834 	mov	r7,a
+      0008BF 90r00r00         [24] 2835 	mov	dptr,#__mullong_PARM_2
+      0008C2 EC               [12] 2836 	mov	a,r4
+      0008C3 F0               [24] 2837 	movx	@dptr,a
+      0008C4 ED               [12] 2838 	mov	a,r5
+      0008C5 A3               [24] 2839 	inc	dptr
+      0008C6 F0               [24] 2840 	movx	@dptr,a
+      0008C7 EE               [12] 2841 	mov	a,r6
+      0008C8 A3               [24] 2842 	inc	dptr
+      0008C9 F0               [24] 2843 	movx	@dptr,a
+      0008CA EF               [12] 2844 	mov	a,r7
+      0008CB A3               [24] 2845 	inc	dptr
+      0008CC F0               [24] 2846 	movx	@dptr,a
+      0008CD 90 00 64         [24] 2847 	mov	dptr,#(0x64&0x00ff)
+      0008D0 E4               [12] 2848 	clr	a
+      0008D1 F5 F0            [12] 2849 	mov	b,a
+      0008D3 12r00r00         [24] 2850 	lcall	__mullong
+      0008D6 AC 82            [24] 2851 	mov	r4,dpl
+      0008D8 AD 83            [24] 2852 	mov	r5,dph
+      0008DA AE F0            [24] 2853 	mov	r6,b
+      0008DC FF               [12] 2854 	mov	r7,a
+      0008DD 90r00r00         [24] 2855 	mov	dptr,#__divulong_PARM_2
+      0008E0 EC               [12] 2856 	mov	a,r4
+      0008E1 F0               [24] 2857 	movx	@dptr,a
+      0008E2 ED               [12] 2858 	mov	a,r5
+      0008E3 A3               [24] 2859 	inc	dptr
+      0008E4 F0               [24] 2860 	movx	@dptr,a
+      0008E5 EE               [12] 2861 	mov	a,r6
+      0008E6 A3               [24] 2862 	inc	dptr
+      0008E7 F0               [24] 2863 	movx	@dptr,a
+      0008E8 EF               [12] 2864 	mov	a,r7
+      0008E9 A3               [24] 2865 	inc	dptr
+      0008EA F0               [24] 2866 	movx	@dptr,a
+      0008EB 90 6C 00         [24] 2867 	mov	dptr,#0x6c00
+      0008EE 75 F0 DC         [24] 2868 	mov	b,#0xdc
+      0008F1 74 02            [12] 2869 	mov	a,#0x02
+      0008F3 12r00r00         [24] 2870 	lcall	__divulong
+      0008F6 AC 82            [24] 2871 	mov	r4,dpl
+      0008F8 AD 83            [24] 2872 	mov	r5,dph
+      0008FA AE F0            [24] 2873 	mov	r6,b
+      0008FC FF               [12] 2874 	mov	r7,a
+      0008FD 90r00r14         [24] 2875 	mov	dptr,#_x
+      000900 EC               [12] 2876 	mov	a,r4
+      000901 F0               [24] 2877 	movx	@dptr,a
+      000902 ED               [12] 2878 	mov	a,r5
+      000903 A3               [24] 2879 	inc	dptr
+      000904 F0               [24] 2880 	movx	@dptr,a
+      000905 EE               [12] 2881 	mov	a,r6
+      000906 A3               [24] 2882 	inc	dptr
+      000907 F0               [24] 2883 	movx	@dptr,a
+      000908 EF               [12] 2884 	mov	a,r7
+      000909 A3               [24] 2885 	inc	dptr
+      00090A F0               [24] 2886 	movx	@dptr,a
+                                   2887 ;	E:\Works\NSHET\sys.c:322: T3_CK_SE = x & 0x0FFF;
+      00090B 8C A4            [24] 2888 	mov	((_T3_COUNT >> 0) & 0xFF),r4
+      00090D 74 0F            [12] 2889 	mov	a,#0x0f
+      00090F 5D               [12] 2890 	anl	a,r5
+      000910 F5 A5            [12] 2891 	mov	((_T3_COUNT >> 8) & 0xFF),a
+                                   2892 ;	E:\Works\NSHET\sys.c:323: T3_SETUP &= ~bT3_EN_CK_SE;
+      000912 53 A3 FE         [24] 2893 	anl	_T3_SETUP,#0xfe
+                                   2894 ;	E:\Works\NSHET\sys.c:324: T3_END = 100;
+      000915 75 A6 64         [24] 2895 	mov	((_T3_END >> 0) & 0xFF),#0x64
+      000918 75 A7 00         [24] 2896 	mov	((_T3_END >> 8) & 0xFF),#0x00
+                                   2897 ;	E:\Works\NSHET\sys.c:325: T3_CTRL |= (bT3_OUT_EN | bT3_PWM_POLAR);
+      00091B 43 AA 28         [24] 2898 	orl	_T3_CTRL,#0x28
+                                   2899 ;	E:\Works\NSHET\sys.c:326: T3_CTRL &= ~bT3_CLR_ALL;
+      00091E 53 AA FD         [24] 2900 	anl	_T3_CTRL,#0xfd
+                                   2901 ;	E:\Works\NSHET\sys.c:327: T3_CTRL |= bT3_CNT_EN;
+      000921 43 AA 04         [24] 2902 	orl	_T3_CTRL,#0x04
+                                   2903 ;	E:\Works\NSHET\sys.c:328: T3_FIFO = 0;
+      000924 E4               [12] 2904 	clr	a
+      000925 F5 AE            [12] 2905 	mov	((_T3_FIFO >> 0) & 0xFF),a
+      000927 F5 AF            [12] 2906 	mov	((_T3_FIFO >> 8) & 0xFF),a
+                                   2907 ;	E:\Works\NSHET\sys.c:329: }
+      000929 22               [24] 2908 	ret
+                                   2909 ;------------------------------------------------------------
+                                   2910 ;Allocation info for local variables in function 'pwm3Duty'
+                                   2911 ;------------------------------------------------------------
+                                   2912 ;duty                      Allocated with name '_pwm3Duty_duty_65536_75'
+                                   2913 ;------------------------------------------------------------
+                                   2914 ;	E:\Works\NSHET\sys.c:331: void pwm3Duty(uint8_t duty) {
+                                   2915 ;	-----------------------------------------
+                                   2916 ;	 function pwm3Duty
+                                   2917 ;	-----------------------------------------
+      00092A                       2918 _pwm3Duty:
+      00092A E5 82            [12] 2919 	mov	a,dpl
+      00092C 90r00r40         [24] 2920 	mov	dptr,#_pwm3Duty_duty_65536_75
+      00092F F0               [24] 2921 	movx	@dptr,a
+                                   2922 ;	E:\Works\NSHET\sys.c:332: T3_FIFO = duty;
+      000930 E0               [24] 2923 	movx	a,@dptr
+      000931 FF               [12] 2924 	mov	r7,a
+      000932 8F AE            [24] 2925 	mov	((_T3_FIFO >> 0) & 0xFF),r7
+      000934 75 AF 00         [24] 2926 	mov	((_T3_FIFO >> 8) & 0xFF),#0x00
+                                   2927 ;	E:\Works\NSHET\sys.c:333: }
+      000937 22               [24] 2928 	ret
+                                   2929 ;------------------------------------------------------------
+                                   2930 ;Allocation info for local variables in function 'adcInit'
+                                   2931 ;------------------------------------------------------------
+                                   2932 ;	E:\Works\NSHET\sys.c:335: void adcInit() {
+                                   2933 ;	-----------------------------------------
+                                   2934 ;	 function adcInit
+                                   2935 ;	-----------------------------------------
+      000938                       2936 _adcInit:
+                                   2937 ;	E:\Works\NSHET\sys.c:336: P1_IE = 0x3F; // P16 P17
+      000938 75 B9 3F         [24] 2938 	mov	_P1_IE,#0x3f
+                                   2939 ;	E:\Works\NSHET\sys.c:337: ADC_SETUP |= bADC_POWER_EN;
+      00093B 43 F6 04         [24] 2940 	orl	_ADC_SETUP,#0x04
+                                   2941 ;	E:\Works\NSHET\sys.c:338: ADC_CK_SE = FREQ_SYS / 8000000;
+      00093E 75 EF 06         [24] 2942 	mov	_ADC_CK_SE,#0x06
+                                   2943 ;	E:\Works\NSHET\sys.c:339: delay_us(100);
+      000941 90 00 64         [24] 2944 	mov	dptr,#0x0064
+                                   2945 ;	E:\Works\NSHET\sys.c:340: }
+      000944 02r01rE7         [24] 2946 	ljmp	_delay_us
+                                   2947 ;------------------------------------------------------------
+                                   2948 ;Allocation info for local variables in function 'adcGet'
+                                   2949 ;------------------------------------------------------------
+                                   2950 ;channel                   Allocated with name '_adcGet_channel_65536_78'
+                                   2951 ;------------------------------------------------------------
+                                   2952 ;	E:\Works\NSHET\sys.c:342: uint16_t adcGet(uint8_t channel) {
+                                   2953 ;	-----------------------------------------
+                                   2954 ;	 function adcGet
+                                   2955 ;	-----------------------------------------
+      000947                       2956 _adcGet:
+      000947 E5 82            [12] 2957 	mov	a,dpl
+      000949 90r00r41         [24] 2958 	mov	dptr,#_adcGet_channel_65536_78
+      00094C F0               [24] 2959 	movx	@dptr,a
+                                   2960 ;	E:\Works\NSHET\sys.c:343: channel &= 0x7;
+      00094D E0               [24] 2961 	movx	a,@dptr
+      00094E 53 E0 07         [24] 2962 	anl	acc,#0x07
+      000951 F0               [24] 2963 	movx	@dptr,a
+                                   2964 ;	E:\Works\NSHET\sys.c:344: ADC_CHANN = 1 << channel;
+      000952 90r00r41         [24] 2965 	mov	dptr,#_adcGet_channel_65536_78
+      000955 E0               [24] 2966 	movx	a,@dptr
+      000956 FF               [12] 2967 	mov	r7,a
+      000957 8F F0            [24] 2968 	mov	b,r7
+      000959 05 F0            [12] 2969 	inc	b
+      00095B 74 01            [12] 2970 	mov	a,#0x01
+      00095D 80 02            [24] 2971 	sjmp	00116$
+      00095F                       2972 00114$:
+      00095F 25 E0            [12] 2973 	add	a,acc
+      000961                       2974 00116$:
+      000961 D5 F0 FB         [24] 2975 	djnz	b,00114$
+      000964 F5 F3            [12] 2976 	mov	_ADC_CHANN,a
+                                   2977 ;	E:\Works\NSHET\sys.c:345: ADC_CTRL |= bADC_SAMPLE;
+      000966 43 F2 80         [24] 2978 	orl	_ADC_CTRL,#0x80
+                                   2979 ;	E:\Works\NSHET\sys.c:346: delay_us(50);
+      000969 90 00 32         [24] 2980 	mov	dptr,#0x0032
+      00096C 12r01rE7         [24] 2981 	lcall	_delay_us
+                                   2982 ;	E:\Works\NSHET\sys.c:347: ADC_CTRL &= ~bADC_SAMPLE;
+      00096F 53 F2 7F         [24] 2983 	anl	_ADC_CTRL,#0x7f
+                                   2984 ;	E:\Works\NSHET\sys.c:348: while ((ADC_STAT & bADC_IF_ACT) == 0);
+      000972                       2985 00101$:
+      000972 E5 F1            [12] 2986 	mov	a,_ADC_STAT
+      000974 30 E4 FB         [24] 2987 	jnb	acc.4,00101$
+                                   2988 ;	E:\Works\NSHET\sys.c:349: ADC_STAT |= bADC_IF_ACT;
+      000977 43 F1 10         [24] 2989 	orl	_ADC_STAT,#0x10
+                                   2990 ;	E:\Works\NSHET\sys.c:350: return ADC_FIFO;
+      00097A AE F4            [24] 2991 	mov	r6,((_ADC_FIFO >> 0) & 0xFF)
+      00097C AF F5            [24] 2992 	mov	r7,((_ADC_FIFO >> 8) & 0xFF)
+      00097E 8E 82            [24] 2993 	mov	dpl,r6
+      000980 8F 83            [24] 2994 	mov	dph,r7
+                                   2995 ;	E:\Works\NSHET\sys.c:351: }
+      000982 22               [24] 2996 	ret
+                                   2997 	.area CSEG    (CODE)
+                                   2998 	.area CONST   (CODE)
+                                   2999 	.area XINIT   (CODE)
+      000000                       3000 __xinit__sysTickCount:
+      000000 00 00 00 00           3001 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+      000004                       3002 __xinit__recBuf0:
+      000004 00                    3003 	.db #0x00	; 0
+      000005 00                    3004 	.db 0x00
+      000006 00                    3005 	.db 0x00
+      000007 00                    3006 	.db 0x00
+      000008 00                    3007 	.db 0x00
+      000009 00                    3008 	.db 0x00
+      00000A 00                    3009 	.db 0x00
+      00000B 00                    3010 	.db 0x00
+      00000C 00                    3011 	.db 0x00
+      00000D 00                    3012 	.db 0x00
+      00000E 00                    3013 	.db 0x00
+      00000F 00                    3014 	.db 0x00
+      000010 00                    3015 	.db 0x00
+      000011 00                    3016 	.db 0x00
+      000012 00                    3017 	.db 0x00
+      000013 00                    3018 	.db 0x00
+      000014 00                    3019 	.db 0x00
+      000015 00                    3020 	.db 0x00
+      000016 00                    3021 	.db 0x00
+      000017 00                    3022 	.db 0x00
+      000018 00                    3023 	.db 0x00
+      000019 00                    3024 	.db 0x00
+      00001A 00                    3025 	.db 0x00
+      00001B 00                    3026 	.db 0x00
+      00001C 00                    3027 	.db 0x00
+      00001D 00                    3028 	.db 0x00
+      00001E 00                    3029 	.db 0x00
+      00001F 00                    3030 	.db 0x00
+      000020 00                    3031 	.db 0x00
+      000021 00                    3032 	.db 0x00
+      000022 00                    3033 	.db 0x00
+      000023 00                    3034 	.db 0x00
+      000024                       3035 __xinit__recPtr0:
+      000024 00                    3036 	.db #0x00	; 0
+      000025                       3037 __xinit__block_recv_ptr:
+      000025 00 00 00              3038 	.byte #0x00,#0x00,#0x00
+      000028                       3039 __xinit__block_recv_pos:
+      000028 00 00                 3040 	.byte #0x00, #0x00	; 0
+      00002A                       3041 __xinit__block_recv_siz:
+      00002A 00 00                 3042 	.byte #0x00, #0x00	; 0
+                                   3043 	.area CABS    (ABS,CODE)

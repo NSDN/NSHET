@@ -1,0 +1,11 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "ch558.h": "c",
+        "oled.h": "c",
+        "degC.C": "cpp",
+        "degCs.C": "cpp",
+        "1.C": "cpp",
+        "2.C": "cpp"
+    }
+}
